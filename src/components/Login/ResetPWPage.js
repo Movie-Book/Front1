@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './ResetPWPage.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import logo from './logo.png'; 
+import Logo from "../../components/Logo";
+
 
 const ResetPWPage = () => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const ResetPWPage = () => {
 
     if (validatePassword()) {
       try {
-        const response = await axios.post('http://34.64.95.62:8080/user/reset-pw', {
+        const response = await axios.post('http://35.216.42.151:8080/user/reset-pw', {
           id: userId,
           password: password,
           rePassword: confirmPassword,
@@ -67,9 +67,7 @@ const ResetPWPage = () => {
 
   return (
     <div className="reset-pw-container">
-      <div className="logo">
-        <img src={logo} alt="logo" className="logo-image" />
-      </div>
+      <Logo/>
       <form className="reset-pw-form" onSubmit={handleResetPassword}>
         <h3 className='reset-pw-title'>비밀번호 재설정</h3>
         <input 
@@ -107,8 +105,8 @@ const ResetPWPage = () => {
         {successMessage && <p className="success-message">{successMessage}</p>}
 
         <div className="back-login">
-          <a href="#" onClick={() => navigate('/')}>로그인</a> | 
-          <a href="#" onClick={() => navigate('/signin')}>회원가입</a>
+          <a href="#" onClick={() => navigate('/login/')}>로그인</a> | 
+          <a href="#" onClick={() => navigate('/login/signin')}>회원가입</a>
         </div>
       </form>
     </div>
@@ -116,3 +114,4 @@ const ResetPWPage = () => {
 };
 
 export default ResetPWPage;
+

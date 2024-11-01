@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import './FriendList.css';
 import { useNavigate } from 'react-router-dom';
-import searchIcon from './icon/search.png';
-import BottomNavigation from './BottomNavigation';
+import BottomNavigationBar from "../../components/BottomNavigationBar";
 
 const FriendList = () => {
   const friends = ['친구1', '친구2', '친구3', '친구4', '친구5'];
@@ -16,14 +14,14 @@ const FriendList = () => {
   };
 
   return (
-    <div className="friend-list-container">
+    <div className="profile-container">
       <div className="header">
-        <button className="back-button" onClick={() => navigate('/mypage')}>{'<'}</button>
-        <h2 className="friend-list-title">친구 목록</h2>
+        <button className="back-button" onClick={() => navigate(-1)}>{'<'}</button>
+        <h2 className="profile-title">친구 목록</h2>
         <div className="back-button-placeholder"></div> 
       </div>
       <div className="search-bar">
-        <img src={searchIcon} alt="search" className="search-icon" />
+        <img src={"../image/search.png"} alt="search" className="search-icon" />
         <input
           type="text"
           className="search-input"
@@ -43,7 +41,7 @@ const FriendList = () => {
           </li>
         ))}
       </ul>
-      <BottomNavigation />
+      <BottomNavigationBar />
     </div>
   );
 };

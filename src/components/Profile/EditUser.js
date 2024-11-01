@@ -1,16 +1,15 @@
 import React from 'react';
-import './EditUser.css';
-import BottomNavigation from './BottomNavigation';
 import { useNavigate } from 'react-router-dom'; 
+import BottomNavigationBar from "../../components/BottomNavigationBar";
 
 const EditUser = () => {
   const navigate = useNavigate(); 
 
   return (
-    <div className="edit-user-container">
+    <div className="profile-container">
       <div className="header">
-        <button className="back-button" onClick={() => navigate('/mypage')}>{'<'}</button>
-        <h1 className="edit-user-title">회원정보 수정</h1>
+        <button className="back-button" onClick={() => navigate(-1)}>{'<'}</button>
+        <h1 className="profile-title">회원정보 수정</h1>
         <div className="back-button-placeholder"></div> 
       </div>
       <form className="edit-user-form">
@@ -24,9 +23,11 @@ const EditUser = () => {
         <input type="email" className="signup-input" />
         <button type="submit" className="signup-button">수정</button>
       </form>
-      <BottomNavigation />
+      <BottomNavigationBar />
     </div>
   );
 };
 
 export default EditUser;
+
+

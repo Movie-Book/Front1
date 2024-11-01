@@ -1,0 +1,252 @@
+.App {
+  text-align: center;
+}
+
+.nav {
+  background: #ffffff;
+  width: 100%;
+  display: flex;
+  color: var(--sub1);
+  padding: 20px;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--vh, 1vh) * 100);
+  background-color: #ffffff;
+}
+
+.login-title {
+  padding-bottom: 10px;
+}
+
+.login-form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid var(--grey);
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.remember-me label {
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.login-button {
+  padding: 10px;
+  background-color: var(--main-red);
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.login-button:hover {
+  background-color: var(--sub1);
+}
+
+.signin-button {
+  padding: 10px;
+  background-color: #ffffff;
+  color: var(--main-red);
+  border: 1px solid var(--main-red);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.signin-button:hover {
+  background-color: var(--sub2);
+  border: 1px solid var(--sub1);
+}
+
+.helper-links {
+  text-align: center;
+  font-size: 14px;
+}
+
+.helper-links a {
+  color: var(--grey);
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.reset-pw-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.reset-pw-title {
+  padding-bottom: 10px;
+}
+
+.reset-pw-form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.reset-pw-input {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid var(--grey);
+  border-radius: 5px;
+}
+
+.error-message {
+  color: var(--main-red);
+  font-size: 12px;
+  margin-top: -5px; 
+  margin-bottom: 5px; 
+}
+
+.success-message {
+  color: var(--main-red);
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.reset-pw-button {
+  padding: 10px;
+  background-color: var(--main-red);
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.find-pw-button:hover {
+  background-color: var(--sub1);
+}
+
+.signup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.signup-title {
+  padding-bottom: 10px;
+}
+
+.signup-form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-input {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid var(--grey);
+  border-radius: 5px;
+}
+
+.signup-button {
+  padding: 10px;
+  background-color: var(--main-red);
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.signup-button:hover {
+  background-color: var(--sub1);
+}
+
+.back-login {
+  text-align: center;
+  font-size: 14px;
+}
+
+.back-login a {
+  color: var(--grey);
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+.find-id-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+.find-id-title {
+  padding-bottom: 10px;
+}
+
+.find-id-form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.find-id-input {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid var(--grey);
+  border-radius: 5px;
+}
+
+.find-id-button {
+  padding: 10px;
+  background-color: var(--main-red);
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.find-id-button:hover {
+  background-color: var(--sub1);
+}

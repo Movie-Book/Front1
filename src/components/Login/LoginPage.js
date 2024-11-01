@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import './LoginPage.css';
 import { useNavigate } from 'react-router-dom';
-import logo from './logo.png';
 import axios from 'axios';
+import Logo from "../../components/Logo";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ const LoginPage = () => {
     };
 
     try {
-      const response = await axios.post('http://34.64.95.62:8080/user/login', loginData, {
+      const response = await axios.post('http://35.216.42.151:8080/user/login', loginData, {
         headers: {
           'Content-Type': 'application/json',
           'accept': 'application/json' 
@@ -27,9 +26,8 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
-        alert('로그인 성공');
         localStorage.setItem('token', response.data.token);
-        navigate('/mypage'); // 임시
+        navigate('/home');
       }
     } catch (error) {
       if (error.response) {
@@ -47,9 +45,7 @@ const LoginPage = () => {
 
   return (
     <div className="login-container">
-      <div className="logo">
-        <img src={logo} alt="logo" className="logo-image" />
-      </div>
+      <Logo/>
       <form className="login-form" onSubmit={handleLogin}>
         <h3 className='login-title'>로그인</h3>
         <input 
@@ -72,11 +68,10 @@ const LoginPage = () => {
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <button type="submit" className="login-button">로그인</button>
-        <button type="button" className="signin-button" onClick={() => navigate('/signin')}>회원가입</button>
-        <button type="button" className="signin-button" onClick={() => navigate('/mypage')}>마이페이지 화면으로</button>
+        <button type="button" className="signin-button" onClick={() => navigate('/login/signin')}>회원가입</button>
         <div className="helper-links">
-          <a href="#" onClick={() => navigate('/find-id')}>아이디 찾기</a> | 
-          <a href="#" onClick={() => navigate('/reset-pw')}>비밀번호 찾기</a>
+          <a href="#" onClick={() => navigate('/login/find-id')}>아이디 찾기</a> | 
+          <a href="#" onClick={() => navigate('/login/reset-pw')}>비밀번호 찾기</a>
         </div>
       </form>
     </div>
@@ -84,3 +79,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

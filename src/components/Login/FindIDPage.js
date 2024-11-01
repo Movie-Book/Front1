@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import './FindIDPage.css';
 import { useNavigate } from 'react-router-dom';
-import logo from './logo.png';
+import Logo from "../../components/Logo";
 import axios from 'axios';
 
 const FindIDPage = () => {
@@ -15,7 +14,7 @@ const FindIDPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.get(`http://34.64.95.62:8080/user/find-id`, {
+      const response = await axios.get(`http://35.216.42.151:8080/user/find-id`, {
         params: {
           userName: name,
           email: email,
@@ -41,9 +40,7 @@ const FindIDPage = () => {
 
   return (
     <div className="find-id-container">
-      <div className="logo">
-        <img src={logo} alt="logo" className="logo-image" />
-      </div>
+      <Logo/>
       <form className="find-id-form" onSubmit={handleFindId}>
         <h3 className='find-id-title'>아이디 찾기</h3>
         <input 
@@ -64,8 +61,8 @@ const FindIDPage = () => {
         {userId && <p className="success-message">{userId}</p>}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div className="back-login">
-          <a href="#" onClick={() => navigate('/')}>로그인</a> | 
-          <a href="#" onClick={() => navigate('/signin')}>회원가입</a>
+          <a href="#" onClick={() => navigate('/profile/')}>로그인</a> | 
+          <a href="#" onClick={() => navigate('/profile/signin')}>회원가입</a>
         </div>
       </form>
     </div>
