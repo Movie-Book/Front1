@@ -8,8 +8,7 @@ function BottomButton({text, onClick, disabled, backgroundColor}) {
         fontSize : '25px',
         fontWeight : 'bold',
         border : 'none',
-        margin : '5px 0px',
-        padding : '25px 0px',
+        margin : '20px 0px',
     }
     const divStyle = {
         backgroundColor : '#ffffff',
@@ -22,7 +21,7 @@ function BottomButton({text, onClick, disabled, backgroundColor}) {
     }
     return(
         <div style={divStyle}>
-            <button style={buttonStyle} onClick={onClick} disabled={disabled}>{text}</button>
+            <button style={buttonStyle} onClick={onClick} disabled={disabled}><h3>{text}</h3></button>
         </div>
     );
 }
