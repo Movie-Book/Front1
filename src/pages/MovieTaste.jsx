@@ -67,7 +67,7 @@ function MovieTaste() {
         <Logo/>
           <h1>{user}님이 좋아하는 영화를 알려주세요</h1>
           {showWarning && (
-            <p style={{color : 'red'}}>3개 이상 선택해주세요</p>
+            <h5 style={{color : 'red'}}>3개 이상 선택해주세요</h5>
           )}
           <div className="movieContainer">
           {movies.map((m) => (
