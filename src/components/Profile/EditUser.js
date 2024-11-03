@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; 
-import BottomNavigationBar from "../../components/BottomNavigationBar";
+import BottomNavigationBar from "../BottomNavigationBar";
 
 const EditUser = () => {
   const navigate = useNavigate(); 
