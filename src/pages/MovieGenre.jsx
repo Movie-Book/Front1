@@ -97,13 +97,13 @@ function MovieGenre() {
                 />
             ))}        
           </div>
-            <BottomButton 
+        </div>
+        <BottomButton 
               text="선택완료" 
               disabled={selectedFavoriteGenre.length===0} 
               backgroundColor = {selectedFavoriteGenre.length === 0 ? "gray" : "#d04040"}
               onClick={next}
               />
-        </div>
     </div>
   );
 }

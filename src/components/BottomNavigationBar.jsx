@@ -1,31 +1,31 @@
-import { react, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import { useNavigate, useLocation } from "react-router-dom";
 
-function BottomNavigationBar(){
+function BottomNavigationBar(props){
 
     const [searchSelected, setSearchSelected] = useState(false);
     const [myMovieSelected, setMyMovieSelected] = useState(false);
     const [myBookSelected, setMyBookSelected] = useState(false);
+
     const navigate = useNavigate();
-
-
-    var search = "./image/search.png";
-    var myMovie = "./image/myMovie.png";
-    var myBook = "./image/myBook.png";
+    const location = useLocation();
 
     const searchImg = searchSelected ? "./image/searchSelected.png" : "./image/search.png";
     const myMovieImg = myMovieSelected ? "./image/myMovieSelected.png" : "./image/myMovie.png";
     const myBookImg = myBookSelected ? "./image/myBookSelected.png" : "./image/myBook.png";
 
-    const selectSearch = () => {
-        setSearchSelected(prev => !prev);
+    useEffect(() => {
+        if (location.pathname === "/search") {
+            setSearchSelected(true);
+        }
+    }, [location]);
 
+    const selectSearch = () => {
+        navigate('/search');
     };
     const selectMyMovie = () => {
-        setMyMovieSelected(prev => !prev);
     };
     const selectMyBook = () => {
-        setMyBookSelected(prev => !prev);
     };
 
 
