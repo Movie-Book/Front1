@@ -29,66 +29,81 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.Logo img{
-    width: 20%;
-    margin : -5% 0% 0% 0%;
-}
-
-.Logo2 .logoImage{
-    width: 20%;
-    margin : -5% 0% 0% 0%;
-}
-
-.Logo2{
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position : relative;
+    height : 150px
+}
+
+.Logo .logoImage{
+    width : 20%;
+    position : absolute;
+    left: 0;
+}
+
+.centerLogoImage{
+    width: 20%;
 }
 
 .mypage{
     width: 10%;
-    margin : -5% 0% 0% 0%;
     position : absolute;
     right : 0;
+    padding: 5%;
+}
+
+.back{
+    width: 10%;
+    position : absolute;
+    left : 0;
+    padding: 5%;
 }
 
 .movieContainer{
-    display: flex;
-    flex-wrap: wrap;
+    justify-content: start;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    column-gap: 5%;
+    width: 100%;
+}
+
+.searchResultContainer{
+    justify-content: start;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    column-gap: 5%;
+    width: 100%;
+    min-height: 300px;
 }
 
 .movie {
-    width: 30%;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column; 
     align-items: center; 
     justify-content: center;
-    margin : 1.5%
 }
 
 .genre {
-    width: 30%;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column; 
     align-items: center; 
     justify-content: center;
-    margin : 1.5%
 }
 
 .movieGenre {
     text-align: center;
+    margin: 10%;
 }
 
 .movie img, .genre img{
-    max-width: 100%;
-    min-height: 80%;
+    width: 100%;
 }
 
 .movieTitle{
     text-align: center;
+    margin: 10%;
 }
 
 .selectedFavorite{
@@ -123,9 +138,17 @@
     text-align: left;
 }
 
-.star-lg{
+.star{
     width: 15%;
     height: 15%;
+}
+
+.stars{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
 }
 
 .dialogButton{
@@ -230,6 +253,31 @@ h5{
     color : #ffffff;
     width : 30%;
     border-radius: 25px;
+}
+
+.searchBar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.searchBar img{
+    width: 10%;
+    margin: 3%;
+}
+
+.searchText{
+    border-bottom: #d04040 5px solid;
+    width: 90%;
+    margin : 2%
+}
+
+.searchText input{
+    border: none;
+    outline: none;
+    font-size: 40px;
+    font-weight: bold;
+    margin : 10px
 }
 
 body {

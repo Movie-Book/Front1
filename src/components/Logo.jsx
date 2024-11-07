@@ -6,12 +6,12 @@ function Logo() {
     const navigate = useNavigate();
 
     const home = () => {
-        navigate('/home');
+        navigate('/');
     }
 
     return(
         <div className="Logo"> 
-            <img className="Logo-image" onClick={home}  src="/image/logo.gif" alt="MovieBook" />
+            <img className="centerLogoImage" onClick={home}  src="/image/logo.gif" alt="MovieBook" />
         </div>
     );
 }
