@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BottomNavigationBar from "../../components/BottomNavigationBar";
+import BottomNavigationBar from "../BottomNavigationBar";
 
 const FriendList = () => {
   const friends = ['친구1', '친구2', '친구3', '친구4', '친구5'];

@@ -1,5 +1,6 @@
 import { FaRegStar, FaStar } from 'react-icons/fa';
 
+
 function Stars({rate=0, setRate, rating=true}){
 
     return(
@@ -9,8 +10,9 @@ function Stars({rate=0, setRate, rating=true}){
             ))}
             {[...Array(5 - rate)].map((a, i) => (
                 <FaRegStar className="star" key={i} onClick={rating===false? null : () => setRate(rate + i + 1)} />
+
             ))}
-    </div>
+        </div>
     );
 }
 

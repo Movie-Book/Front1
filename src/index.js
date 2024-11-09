@@ -9,6 +9,7 @@ import './css/index.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/LoginLayout';
 import Profile from './pages/ProfileLayout';
+import MyMovie from './pages/MyMovieLayout';
 import reportWebVitals from './reportWebVitals';
 import MovieSearch from './pages/MovieSearch';
 
@@ -21,9 +22,11 @@ root.render(
         <Route path="/" element={<Home/>}/>
         <Route path="/movie" element={<MovieTaste/>}/>
         <Route path="/bookInfo" element={<BookInfo/>}/>
-        <Route path="/search" element={<MovieSearch/>}/>
         <Route path="/profile/*" element={<Profile />} />
         <Route path="/login/*" element={<Login />} />
+        <Route path="/mymovie/*" element={<MyMovie />} />
+        <Route path="/search" element={<MovieSearch/>}/>
+
       </Routes>
     </Router>
   </React.StrictMode>
