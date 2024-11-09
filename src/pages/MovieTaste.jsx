@@ -12,7 +12,7 @@ function MovieTaste() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovieTitle, setSelectedMovieTitle] = useState(null);
   const [selectedMoviePoster, setSelectedMoviePoster] = useState(null);
-  const [stars, setStars] = useState(0);
+  const [starRating, setStarRating] = useState({});
 
   var user = "___";
 
@@ -34,24 +34,31 @@ function MovieTaste() {
   ]
 
   const back = () => {
-    navigate('/');
+    navigate('/movieGenre');
   }
 
   const done = () => {
-    navigate('/home');
+    navigate('/');
   }
 
   const selectMovie = (movieTitle, moviePoster) => {
     setOpenModal(true);
-    setStars(0);
     setSelectedMovieTitle(movieTitle);
     setSelectedMoviePoster(moviePoster);
-    if(selectedMovie.includes(movieTitle)){
-      setSelectedMovie(selectedMovie.filter((m)=>m!==movieTitle));
-    } else{
+  }
+
+  const updateRating = (movieTitle, newRating) => {
+    setStarRating(prevRatings => ({
+      ...prevRatings,
+      [movieTitle] : newRating
+    }));
+    if(newRating > 0 && !selectedMovie.includes(movieTitle)){
       setSelectedMovie([...selectedMovie, movieTitle]);
     }
-  }
+    else if(newRating === 0){
+      setSelectedMovie(selectedMovie.filter(m=>m !== movieTitle));
+    }
+  };
 
   useEffect(() => {
     if (selectedMovie.length < 3) {
@@ -67,7 +74,7 @@ function MovieTaste() {
         <Logo/>
           <h1>{user}님이 좋아하는 영화를 알려주세요</h1>
           {showWarning && (
-            <p style={{color : 'red'}}>3개 이상 선택해주세요</p>
+            <h5 style={{color : 'red'}}>3개 이상 선택해주세요</h5>
           )}
           <div className="movieContainer">
           {movies.map((m) => (
@@ -76,7 +83,8 @@ function MovieTaste() {
                   onClick={() => selectMovie(m.movieTitle, m.moviePoster)} 
                   moviePoster = {m.moviePoster} 
                   movieTitle = {m.movieTitle} 
-                  selected={selectedMovie.includes(m.movieTitle)} 
+                  rate={starRating[m.movieTitle] || 0}
+                  selected={starRating[m.movieTitle] > 0} 
                 />
             ))}
           </div>
@@ -87,7 +95,14 @@ function MovieTaste() {
                onClick2={done} 
             />
         </div>
-      <MovieRateDialog openModal={openModal} movieTitle={selectedMovieTitle} moviePoster={selectedMoviePoster} rate={0}/>
+      <MovieRateDialog 
+          openModal={openModal} 
+          movieTitle={selectedMovieTitle} 
+          moviePoster={selectedMoviePoster} 
+          rate={starRating[selectedMovieTitle] || 0} 
+          rateUpdate={updateRating}
+          onClose={()=>setOpenModal(false)}
+        />
     </div>
   );
 }

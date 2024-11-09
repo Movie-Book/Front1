@@ -82,7 +82,7 @@ function MovieGenre() {
           <Logo/>
           <h1>{user}님이 {step === "선호" ? "좋아하는" : "싫어하는"} 영화 장르를 알려주세요</h1>
           {showWarning && (
-            <p style={{color : 'red'}}>1가지 이상의 장르를 선택해주세요</p>
+            <h5 style={{color : 'red'}}>1가지 이상의 장르를 선택해주세요</h5>
           )}
           <div className="movieContainer">
             {genres.map((g) => (
@@ -97,13 +97,13 @@ function MovieGenre() {
                 />
             ))}        
           </div>
-            <BottomButton 
+        </div>
+        <BottomButton 
               text="선택완료" 
               disabled={selectedFavoriteGenre.length===0} 
               backgroundColor = {selectedFavoriteGenre.length === 0 ? "gray" : "#d04040"}
               onClick={next}
               />
-        </div>
     </div>
   );
 }
