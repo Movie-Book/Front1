@@ -12,21 +12,22 @@ import Profile from './pages/ProfileLayout';
 import MyMovie from './pages/MyMovieLayout';
 import reportWebVitals from './reportWebVitals';
 import MovieSearch from './pages/MovieSearch';
+import Main from './pages/Main';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
     <Routes>
+        <Route path='/' element={<Main/>}/>
         <Route path="/movieGenre" element={<MovieGenre />} />
-        <Route path="/" element={<Home/>}/>
+        <Route path="/home" element={<Home/>}/>
         <Route path="/movie" element={<MovieTaste/>}/>
         <Route path="/bookInfo" element={<BookInfo/>}/>
         <Route path="/profile/*" element={<Profile />} />
         <Route path="/login/*" element={<Login />} />
         <Route path="/mymovie/*" element={<MyMovie />} />
         <Route path="/search" element={<MovieSearch/>}/>
-
       </Routes>
     </Router>
   </React.StrictMode>
