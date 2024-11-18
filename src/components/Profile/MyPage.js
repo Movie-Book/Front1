@@ -19,19 +19,20 @@ const MyPage = () => {
   }, []);
 
   return (
-    <div className="profile-container">
-      <div className="header">
-        <button className="back-button" onClick={() => navigate(-1)}>{'<'}</button> {/*home으로 가게끔 고쳐야함 */}
-        <h1 className="profile-title">마이페이지</h1>
-        <div className="back-button-placeholder"></div> 
+    <div>
+      <div className="Logo">
+        <img  onClick={() => navigate(-1)}  className="back" src="/image/back.png" alt="back" />
+        <h3 className="info">내 정보</h3>
       </div>
-      <div className="welcome-message">안녕하세요! @{userId}님</div>
-      <hr className="separator" />
-      <ul className="mypage-menu">
-        <li onClick={() => navigate('/profile/edit-user')}>회원정보 수정</li>
-        <li onClick={() => navigate('/profile/friend-list')}>친구 목록</li> 
-        <li>환경설정</li>
-      </ul>
+      <div className="profile-container">
+        <div className="welcome-message">안녕하세요! @{userId}님</div>
+        <hr className="separator" />
+        <ul className="mypage-menu">
+          <li onClick={() => navigate('/profile/edit-user')}>회원정보 수정</li>
+          <li onClick={() => navigate('/profile/friend-list')}>친구 목록</li> 
+          <li>환경설정</li>
+        </ul>
+      </div>
       <BottomNavigationBar />
     </div>
   );

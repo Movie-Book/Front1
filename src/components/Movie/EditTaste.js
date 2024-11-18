@@ -72,12 +72,12 @@ function MovieTaste() {
 
   return (
     <div>
+      <div className="Logo">
+        <img onClick={() => navigate(-1)}className="back" src="/image/back.png"alt="back"/>
+        <h3 className="info">내 영화 편집</h3>
+        <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage"/>
+      </div>
       <div className="container">
-        <div className="header">
-          <button className="back-button" onClick={() => navigate(-1)}>{'<'}</button>
-          <h1 className="profile-title">내 영화 편집</h1>
-          <div className="back-button-placeholder"></div>
-        </div>
         {showWarning && (
           <p style={{ color: 'red' }}>3개 이상 선택해주세요</p>
         )}
@@ -93,12 +93,6 @@ function MovieTaste() {
             />
           ))}
         </div>
-        <Bottom2Button
-          text1="장르다시선택하기"
-          text2="선택완료"
-          onClick1={back}
-          onClick2={done}
-        />
       </div>
       <MovieRateDialog
         openModal={openModal}
