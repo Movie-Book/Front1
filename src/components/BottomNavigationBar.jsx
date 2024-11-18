@@ -26,6 +26,7 @@ function BottomNavigationBar(props){
         navigate('/search');
     };
     const selectMyMovie = () => {
+        navigate('/mymovie/');
     };
     const selectMyBook = () => {
     };

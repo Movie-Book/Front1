@@ -47,17 +47,17 @@ function EditGenre() {
   const saveChanges = () => {
     localStorage.setItem("favoriteGenres", JSON.stringify(selectedFavoriteGenre));
     localStorage.setItem("hateGenres", JSON.stringify(selectedHateGenre));
-    navigate('/home'); // 임시
+    navigate('/mymovie');
   };
 
   return (
     <div>
+      <div className="Logo">
+        <img onClick={() => navigate(-1)}className="back" src="/image/back.png"alt="back"/>
+        <h3 className="info">내 장르 편집</h3>
+        <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage" />
+      </div>
       <div className="container">
-        <div className="header">
-            <button className="back-button" onClick={() => navigate(-1)}>{'<'}</button>
-            <h1 className="profile-title">내 장르 편집</h1>
-            <div className="back-button-placeholder"></div> 
-        </div>
         <div className="movieContainer">
           {genres.map((g) => (
             <MovieGenreButton
@@ -71,7 +71,8 @@ function EditGenre() {
             />
           ))}
         </div>
-        <BottomButton
+      </div>
+      <BottomButton
           text={step === "선호" ? "다음" : "저장"}
           backgroundColor="#d04040"
           onClick={() => {
@@ -81,8 +82,7 @@ function EditGenre() {
               saveChanges();
             }
           }}
-        />
-      </div>
+      />
     </div>
   );
 }

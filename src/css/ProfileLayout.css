@@ -1,12 +1,12 @@
 
 .profile-container {
-  padding: 16px;
   display: flex;
   flex-direction: column;
   height: calc(var(--vh, 1vh) * 100);
   background-color: white; 
   margin: 5%;
 }
+
 
 .profile-title {
   flex: 1;

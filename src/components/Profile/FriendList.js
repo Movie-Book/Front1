@@ -14,33 +14,34 @@ const FriendList = () => {
   };
 
   return (
-    <div className="profile-container">
-      <div className="header">
-        <button className="back-button" onClick={() => navigate(-1)}>{'<'}</button>
-        <h2 className="profile-title">친구 목록</h2>
-        <div className="back-button-placeholder"></div> 
+    <div>
+      <div className="Logo">
+        <img  onClick={() => navigate(-1)}  className="back" src="/image/back.png" alt="back" />
+        <h3 className="info">친구 목록</h3>
       </div>
-      <div className="search-bar">
-        <img src={"../image/search.png"} alt="search" className="search-icon" />
-        <input
-          type="text"
-          className="search-input"
-          placeholder="친구를 검색하세요"
-        />
+      <div className="profile-container">
+        <div className="search-bar">
+          <img src={"../image/search.png"} alt="search" className="search-icon" />
+          <input
+            type="text"
+            className="search-input"
+            placeholder="친구를 검색하세요"
+          />
+        </div>
+        <ul className="friend-list">
+          {friends.map((friend, index) => (
+            <li key={index} className="friend-item">
+              <span
+                className={`star-icon ${favorites[index] ? 'active' : ''}`}
+                onClick={() => toggleFavorite(index)}
+              >
+                {favorites[index] ? '★' : '☆'}
+              </span>{' '}
+              {friend}
+            </li>
+          ))}
+        </ul>
       </div>
-      <ul className="friend-list">
-        {friends.map((friend, index) => (
-          <li key={index} className="friend-item">
-            <span
-              className={`star-icon ${favorites[index] ? 'active' : ''}`}
-              onClick={() => toggleFavorite(index)}
-            >
-              {favorites[index] ? '★' : '☆'}
-            </span>{' '}
-            {friend}
-          </li>
-        ))}
-      </ul>
       <BottomNavigationBar />
     </div>
   );
