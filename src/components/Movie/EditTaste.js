@@ -1,9 +1,8 @@
 import MovieTasteButton from '../MovieTasteButton';
-import Bottom2Button from "../Bottom2Button";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MovieRateDialog from "../MovieRateDialog";
-import Logo from "../Logo";
+import BottomNavigationBar from "../../components/BottomNavigationBar";
 
 function MovieTaste() {
   const [selectedMovie, setSelectedMovie] = useState([]);
@@ -30,14 +29,6 @@ function MovieTaste() {
     { moviePoster: "/image/parasite.jpg", movieTitle: "영화11" },
     { moviePoster: "/image/parasite.jpg", movieTitle: "영화12" },
   ];
-
-  const back = () => {
-    navigate(-1);
-  };
-
-  const done = () => {
-    navigate('/');
-  };
 
   const selectMovie = (movieTitle, moviePoster) => {
     setOpenModal(true);
@@ -78,9 +69,6 @@ function MovieTaste() {
         <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage"/>
       </div>
       <div className="container">
-        {showWarning && (
-          <p style={{ color: 'red' }}>3개 이상 선택해주세요</p>
-        )}
         <div className="movieContainer">
           {movies.map((m) => (
             <MovieTasteButton
@@ -102,6 +90,10 @@ function MovieTaste() {
         onStarChange={setStars} 
         onSaveRating={saveRating} 
       />
+      <button className="save-button" onClick={()=>navigate("/mymovie")}>
+        저장
+      </button>
+      <BottomNavigationBar />
     </div>
   );
 }
