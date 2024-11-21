@@ -94,20 +94,40 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    position : absolute;
     font-size: 24px;
     font-weight: bold;
-    right: 0;
-    margin: 20px;
+    margin : 20px 0px
   }
 
-  .movie-genre a {
+  .noEditButton{
+    margin : 28px 0px
+  }
+
+  a {
     font-weight: bold;
     font-size: 24px;
   }
+
 
   .movie-genre-switch{
     color: var(--grey);
     text-decoration: none;
-    margin-left: 5px;
+  }
+
+  .genre-list {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열 레이아웃 */
+    gap: 16px;
+    padding: 16px;
+    overflow-y: auto;
+  }
+  .genre-button{
+    display:flex;
+    align-items: center;
+    margin : 20px;
+    justify-content: space-between;
+  }
+  .genre-section h5{
+    text-align: center;
   }

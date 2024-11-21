@@ -23,8 +23,8 @@ function Home(){
 
     return (
         <div>
+            <LogoWithMypage/>
                 <div className="container">
-                    <LogoWithMypage/>
                     <h1>당신을 위한 오늘의 책</h1>
                     <div className="bookContainer">
                         <BookRecommendation 

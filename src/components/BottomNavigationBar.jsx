@@ -12,13 +12,37 @@ function BottomNavigationBar(props){
     const navigate = useNavigate();
     const location = useLocation();
 
-    const searchImg = searchSelected ? "./image/searchSelected.png" : "./image/search.png";
-    const myMovieImg = myMovieSelected ? "./image/myMovieSelected.png" : "./image/myMovie.png";
-    const myBookImg = myBookSelected ? "./image/myBookSelected.png" : "./image/myBook.png";
+    const searchImg = searchSelected ? "/image/searchSelected.png" : "/image/search.png";
+    const myMovieImg = myMovieSelected ? "/image/myMovieSelected.png" : "/image/myMovie.png";
+    const myBookImg = myBookSelected ? "/image/myBookSelected.png" : "/image/myBook.png";    
 
     useEffect(() => {
-        if (location.pathname === "/search") {
-            setSearchSelected(true);
+        // 모든 상태 초기화
+        setSearchSelected(false);
+        setMyMovieSelected(false);
+        setMyBookSelected(false);
+
+        switch (location.pathname) {
+            case "/search":
+                setSearchSelected(true);
+                break;
+            case "/mymovie":
+                setMyMovieSelected(true);
+                break;
+            case "/mymovie/taste":
+                setMyMovieSelected(true);
+                break;
+            case "/mymovie/genre":
+                setMyMovieSelected(true);
+                break;
+            case "/mymovie/genre":
+                setMyMovieSelected(true);
+                break;
+            case "/mybook":
+                setMyBookSelected(true);
+                break;
+            default:
+                break;
         }
     }, [location]);
 
@@ -26,9 +50,10 @@ function BottomNavigationBar(props){
         navigate('/search');
     };
     const selectMyMovie = () => {
-        navigate('/mymovie/');
+        navigate('/mymovie');
     };
     const selectMyBook = () => {
+        navigate('/mybook');
     };
 
 

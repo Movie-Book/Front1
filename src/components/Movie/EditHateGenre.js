@@ -2,8 +2,9 @@ import MovieGenreButton from "../MovieGenreButton";
 import BottomButton from "../BottomButton";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import BackButtonWithMypage from "../BackButtonWithMypage";
 
-function EditGenre() {
+function EditHateGenre() {
   const navigate = useNavigate();
 
   const savedFavoriteGenres = JSON.parse(localStorage.getItem("favoriteGenres")) || [];
@@ -11,8 +12,6 @@ function EditGenre() {
 
   const [selectedFavoriteGenre, setSelectedFavoriteGenre] = useState(savedFavoriteGenres);
   const [selectedHateGenre, setSelectedHateGenre] = useState(savedHateGenres);
-  const [step, setStep] = useState("선호");
-
 
   const genres = [
     { poster: "https://image.tmdb.org/t/p/w400/cadVm6gKYYukmPysHGCwrawUHHa.jpg", genre: "액션" },
@@ -29,18 +28,10 @@ function EditGenre() {
   ];
 
   const selectGenre = (genre) => {
-    if (step === "선호") {
-      if (selectedFavoriteGenre.includes(genre)) {
-        setSelectedFavoriteGenre(selectedFavoriteGenre.filter((g) => g !== genre));
-      } else {
-        setSelectedFavoriteGenre([...selectedFavoriteGenre, genre]);
-      }
+    if (selectedHateGenre.includes(genre)) {
+    setSelectedHateGenre(selectedHateGenre.filter((g) => g !== genre));
     } else {
-      if (selectedHateGenre.includes(genre)) {
-        setSelectedHateGenre(selectedHateGenre.filter((g) => g !== genre));
-      } else {
-        setSelectedHateGenre([...selectedHateGenre, genre]);
-      }
+    setSelectedHateGenre([...selectedHateGenre, genre]);
     }
   };
 
@@ -52,12 +43,14 @@ function EditGenre() {
 
   return (
     <div>
-      <div className="Logo">
+       {/*<div className="Logo">
         <img onClick={() => navigate(-1)}className="back" src="/image/back.png"alt="back"/>
         <h3 className="info">내 장르 편집</h3>
-        <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage" />
-      </div>
+        <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage"/>
+      </div>*/}
+      <BackButtonWithMypage title="내 장르 편집"/>
       <div className="container">
+      <h3>싫어하는 영화 장르를 알려주세요</h3>
         <div className="movieContainer">
           {genres.map((g) => (
             <MovieGenreButton
@@ -67,24 +60,20 @@ function EditGenre() {
               movieGenre={g.genre}
               selectedFavorite={selectedFavoriteGenre.includes(g.genre)}
               selectedHate={selectedHateGenre.includes(g.genre)}
-              isHateStep={step === "비선호"}
+              isHateStep={true}
             />
           ))}
         </div>
       </div>
       <BottomButton
-          text={step === "선호" ? "다음" : "저장"}
+          text="저장"
           backgroundColor="#d04040"
           onClick={() => {
-            if (step === "선호") {
-              setStep("비선호");
-            } else {
               saveChanges();
-            }
           }}
       />
     </div>
   );
 }
 
-export default EditGenre;
+export default EditHateGenre;

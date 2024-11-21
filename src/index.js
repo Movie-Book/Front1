@@ -13,6 +13,7 @@ import MyMovie from './pages/MyMovieLayout';
 import reportWebVitals from './reportWebVitals';
 import MovieSearch from './pages/MovieSearch';
 import Main from './pages/Main';
+import MyBook from './pages/MyBook';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -28,6 +29,7 @@ root.render(
         <Route path="/login/*" element={<Login />} />
         <Route path="/mymovie/*" element={<MyMovie />} />
         <Route path="/search" element={<MovieSearch/>}/>
+        <Route path="/mybook" element={<MyBook/>}/>
       </Routes>
     </Router>
   </React.StrictMode>

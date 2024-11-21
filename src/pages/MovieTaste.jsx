@@ -72,7 +72,7 @@ function MovieTaste() {
   <div>
       <div  className="container">
         <Logo/>
-          <h1>{user}님이 좋아하는 영화를 알려주세요</h1>
+          <h1>{user}님이 본 영화를 평가해주세요</h1>
           {showWarning && (
             <h5 style={{color : 'red'}}>3개 이상 선택해주세요</h5>
           )}

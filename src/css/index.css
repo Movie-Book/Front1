@@ -30,13 +30,15 @@
     justify-content: center;
     align-items: center;
     position : relative;
-    height : 150px
+    height : 150px;
+    padding : 25px
 }
 
 .Logo .logoImage{
     width : 20%;
     position : absolute;
     left: 0;
+    margin-left: 20px;
 }
 
 .centerLogoImage{
@@ -80,14 +82,23 @@
     width: 100%;
 }
 
-.searchResultContainer{
+/* .searchResultContainer{
     justify-content: start;
     display: grid;
     grid-template-columns: repeat(3,1fr);
     column-gap: 5%;
     width: 100%;
     min-height: 300px;
-}
+} */
+
+.searchResultContainer {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3열 레이아웃 */
+    gap: 16px;
+    padding: 16px;
+    overflow-y: auto;
+  }
 
 .movie {
     width: 100%;
@@ -107,6 +118,20 @@
     justify-content: center;
 }
 
+.bookButton {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.bookButtonTitle{
+    text-align: center;
+    margin: 10%;
+}
+
 .movieGenre {
     text-align: center;
     margin: 10%;
@@ -119,6 +144,10 @@
 .movieTitle{
     text-align: center;
     margin: 10%;
+}
+
+.bookButton img{
+    width: 100%;
 }
 
 .selectedFavorite{
@@ -196,7 +225,7 @@
 }
 
 .bookImage{
-    width: 60%;
+    width: 50%;
 }
 
 .newRecommendationButton{
