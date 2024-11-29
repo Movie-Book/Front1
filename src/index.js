@@ -14,6 +14,7 @@ import reportWebVitals from './reportWebVitals';
 import MovieSearch from './pages/MovieSearch';
 import Main from './pages/Main';
 import MyBook from './pages/MyBook';
+import FriendInfo from './pages/FriendInfo';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -30,6 +31,7 @@ root.render(
         <Route path="/mymovie/*" element={<MyMovie />} />
         <Route path="/search" element={<MovieSearch/>}/>
         <Route path="/mybook" element={<MyBook/>}/>
+        <Route path="/friendInfo" element={<FriendInfo/>}/>
       </Routes>
     </Router>
   </React.StrictMode>

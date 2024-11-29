@@ -66,7 +66,7 @@ function MovieSearch(){
         <div>
             <BackButtonWithMypage title={"영화검색"}/>
             <div className="container">
-                <SearchBar searchText={searchText} onSearch={search}/>
+                <SearchBar text="영화제목을 입력하세요" searchText={searchText} onSearch={search}/>
                 <div className="searchResultContainer">
                     {searchResult.map((m) => (
                             <MovieTasteButton
