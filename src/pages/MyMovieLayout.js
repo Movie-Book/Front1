@@ -1,6 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import EditTaste from '../components/Movie/EditTaste';
+import EditFavoriteGenre from '../components/Movie/EditFavoriteGenre';
+import EditHateGenre from '../components/Movie/EditHateGenre';
 import MyMovie from '../components/Movie/MyMovie';
 import '../css/index.css';
 import '../css/MyMovieLayout.css';

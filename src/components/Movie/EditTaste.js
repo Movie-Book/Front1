@@ -36,14 +36,6 @@ function MovieTaste() {
     { moviePoster: "/image/parasite.jpg", movieTitle: "영화12" },
   ];
 
-  const back = () => {
-    navigate(-1);
-  };
-
-  const done = () => {
-    navigate('/');
-  };
-
   const selectMovie = (movieTitle, moviePoster) => {
     setOpenModal(true);
 /*    setStars(movieRatings[movieTitle] || 0); */
