@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNavigationBar from "../BottomNavigationBar";
 import MovieTasteButton from "../MovieTasteButton";
+import BackButtonWithMypage from "../BackButtonWithMypage";
 
 const MyMovie = () => {
   const navigate = useNavigate();
@@ -34,26 +35,31 @@ const MyMovie = () => {
 
   return (
     <div>
-      <div className="Logo">
+       {/*<div className="Logo">
         <img onClick={() => navigate(-1)}className="back" src="/image/back.png"alt="back"/>
-        <h3 className="info">내 영화</h3>
+        <h3 className="info">내 영화 편집</h3>
         <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage"/>
-      </div>
-      <div className="movie-genre">
-        <a>영화 | </a><a href="#" className="movie-genre-switch" onClick={() => navigate("/mymovie/genre")}> 장르</a>
-        <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/taste")}>편집</button>
-      </div>
-      <div className="movie-rate-edit-container">
-        <div className="movie-list">
-          {movies.map((movie) => (
-            <MovieTasteButton
-              key={movie.movieTitle}
-              moviePoster={movie.moviePoster}
-              movieTitle={movie.movieTitle}
-              rate={starRating[movie.movieTitle] || 0} 
-              rating={false}
+      </div>*/}
+      <BackButtonWithMypage title={"내 영화 편집"}/>
+      <div className="container">
+        <div className="genre-button">
+            <div>
+            <a>영화 |</a><a href="#" className="movie-genre-switch" onClick={() => navigate("/mymovie/genre")}>&nbsp;장르</a>
+            </div>
+            <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/taste", { state: { starRating } })}>편집</button>
+        </div>
+        <div className="movie-rate-edit-container">
+          <div className="movie-list">
+            {movies.map((movie) => (
+              <MovieTasteButton
+                key={movie.movieTitle}
+                moviePoster={movie.moviePoster}
+                movieTitle={movie.movieTitle}
+                rate={starRating[movie.movieTitle] || 0} 
+                rating={false}
             />
-          ))}
+            ))}
+          </div>
         </div>
       </div>
       <BottomNavigationBar />

@@ -7,8 +7,9 @@ function BookInfo(){
     const {bookTitle, author, publisher, bookImage, bookDescription} = location.state || {};
     return(
         <div>
+            <LogoWithMypage/>
+
             <div className="container">
-                    <LogoWithMypage/>
                     <h1>{bookTitle}</h1>
                     <h3>{author} | {publisher}</h3>
                     <div className="book">

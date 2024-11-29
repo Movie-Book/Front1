@@ -1,8 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import BottomNavigationBar from "../../components/BottomNavigationBar";
+import BackButtonWithMypage from "../BackButtonWithMypage";
 
-function EditGenre() {
+function MyGenre() {
   const navigate = useNavigate();
 
   const favoriteGenres = [
@@ -19,59 +20,53 @@ function EditGenre() {
 
   return (
     <div>
-      <div className="Logo">
-        <img onClick={() => navigate(-1)} className="back" src="/image/back.png" alt="back" />
-        <h3 className="info">내 영화</h3>
-        <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage" />
-      </div>
+       {/*<div className="Logo">
+        <img onClick={() => navigate(-1)}className="back" src="/image/back.png"alt="back"/>
+        <h3 className="info">내 장르</h3>
+        <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage"/>
+      </div>*/}
+      <BackButtonWithMypage title="내 장르"/>
 
-      <div className="movie-genre">
-        <a href="#" className="movie-genre-switch" onClick={() => navigate("/mymovie/")}>
-          영화
-        </a>
-        <a> | 장르</a>
+      <div className="container">
+      <div className="genre-button">
+        <div className="noEditButton">        
+            <a href="#" className="movie-genre-switch" onClick={() => navigate("/mymovie")}>영화 |</a><a>&nbsp;장르</a>
+        </div>
       </div>
-
       <div>
-        {/* 내 선호 장르 섹션 */}
         <div className="genre-section">
-          <div className="genre-header">
-            <h3>내 선호 장르</h3>
-            <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/editfavoritegenre")}>
-              편집
-            </button>
-          </div>
+            <div className="genre-button">
+                <h3>내 선호 장르</h3>
+                <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/editFavoriteGenre")}>편집</button>
+            </div>
           <div className="genre-list">
             {favoriteGenres.map((genre, index) => (
               <div key={index} className="genre-card">
                 <img className="genre-poster" src={genre.poster} alt={genre.genre} />
-                <span className="genre-name">{genre.genre}</span>
+                <h5 className="genre-name">{genre.genre}</h5>
               </div>
             ))}
           </div>
         </div>
-
-        {/* 내 불호 장르 섹션 */}
         <div className="genre-section">
-          <div className="genre-header">
+            <div className="genre-button">
             <h3>내 불호 장르</h3>
-            <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/edithategenre")}>
-              편집
-            </button>
+            <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/editHateGenre")}>편집</button>
           </div>
           <div className="genre-list">
             {hateGenres.map((genre, index) => (
               <div key={index} className="genre-card">
                 <img className="genre-poster" src={genre.poster} alt={genre.genre} />
-                <span className="genre-name">{genre.genre}</span>
+                <h5 className="genre-name">{genre.genre}</h5>
               </div>
             ))}
           </div>
         </div>
+      </div>
       </div>
       <BottomNavigationBar />
     </div>
   );
 }
 
-export default EditGenre;
+export default MyGenre;
