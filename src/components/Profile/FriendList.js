@@ -50,13 +50,11 @@ function FriendList() {
 
   // **검색 기능**
   useEffect(() => {
-    console.log("검색어 변경됨:", searchText);
 
     const result = friends.filter(
       (friend) => friend.id && friend.id.includes(searchText) // `friend.id` 검증 및 검색
     );
 
-    console.log("검색 결과:", result);
 
     setSearchResult(result);
   }, [friends, searchText]);
@@ -67,7 +65,6 @@ function FriendList() {
 
   // **친구 즐겨찾기 상태 토글**
   const toggleFavorite = (id) => {
-    console.log(`${id}의 즐겨찾기 상태 토글`);
 
     setFriends((prevFriends) =>
       prevFriends.map((friend) =>
