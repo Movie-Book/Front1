@@ -14,11 +14,6 @@ const MyMovie = () => {
 
   return (
     <div>
-       {/*<div className="Logo">
-        <img onClick={() => navigate(-1)}className="back" src="/image/back.png"alt="back"/>
-        <h3 className="info">내 영화 편집</h3>
-        <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage"/>
-      </div>*/}
       <BackButtonWithMypage title={"내 영화 편집"}/>
       <div className="container">
         <div className="genre-button">
