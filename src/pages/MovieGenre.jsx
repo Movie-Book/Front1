@@ -58,7 +58,6 @@ function MovieGenre() {
             },
           }
         );
-        console.log("선호 장르 저장 성공");
       } else {
         await axios.post(
           "http://35.216.42.151:8080/api/v1/genre/dislike",
@@ -70,7 +69,6 @@ function MovieGenre() {
             },
           }
         );
-        console.log("비선호 장르 저장 성공");
       }
     } catch (error) {
       console.error("장르 저장 실패:", error);
