@@ -59,8 +59,6 @@ function EditHateGenre() {
           },
         }
       );
-
-      console.log("비선호 장르가 성공적으로 저장되었습니다.");
       // 저장 후 '내 장르' 페이지로 이동
       navigate("/mymovie/genre");
     } catch (error) {

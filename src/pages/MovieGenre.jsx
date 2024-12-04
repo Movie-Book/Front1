@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 
 function MovieGenre() {
+  const navigate = useNavigate();
   const [selectedFavoriteGenre, setSelectedFavoriteGenre] = useState([]);
   const [showWarning, setShowWarning] = useState(true);
   const [selectedHateGenre, setSelectedHateGenre] = useState([]);
@@ -133,6 +134,7 @@ function MovieGenre() {
         );
         console.log("비선호 장르 저장 성공");
         localStorage.setItem('hateGenre', selectedHateGenre);
+
       }
     } catch (error) {
       console.error("장르 저장 실패:", error);
