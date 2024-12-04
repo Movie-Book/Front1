@@ -7,16 +7,11 @@ import BackButtonWithMypage from "../BackButtonWithMypage";
 
 function EditHateGenre() {
   const navigate = useNavigate();
-  const jwtToken = localStorage.getItem("token"); // JWT 토큰 가져오기
+  const jwtToken = localStorage.getItem("token");
 
-  // 로컬 스토리지에서 장르 정보 가져오기
-  const savedFavoriteGenres = JSON.parse(localStorage.getItem("favoriteGenre")) || [];
-  const savedHateGenres = JSON.parse(localStorage.getItem("hateGenre")) || [];
+  const [selectedHateGenre, setSelectedHateGenre] = useState([]); // 비선호 장르 상태
+  const [loading, setLoading] = useState(true); // 로딩 상태 추가
 
-  const [selectedFavoriteGenre, setSelectedFavoriteGenre] = useState(savedFavoriteGenres);
-  const [selectedHateGenre, setSelectedHateGenre] = useState(savedHateGenres);
-
-  // 장르 목록 (ID와 이름 추가)
   const genres = [
     { id: 1, poster: "https://image.tmdb.org/t/p/w400/cadVm6gKYYukmPysHGCwrawUHHa.jpg", genre: "액션" },
     { id: 2, poster: "https://image.tmdb.org/t/p/w400/oAt6OtpwYCdJI76AVtVKW1eorYx.jpg", genre: "드라마" },
@@ -31,25 +26,40 @@ function EditHateGenre() {
     { id: 11, poster: "https://image.tmdb.org/t/p/w400/xYnL0kA0V7aDvg8wupmWQbdgb9a.jpg", genre: "범죄" },
   ];
 
-  // 장르 선택 핸들러
+  useEffect(() => {
+    const fetchHateGenres = async () => {
+      try {
+        const response = await axios.get("http://35.216.42.151:8080/api/v1/genre/dislike", {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        });
+        setSelectedHateGenre(response.data.genres || []); // 안전하게 빈 배열로 대체
+      } catch (error) {
+        console.error("비선호 장르 가져오기 오류:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHateGenres();
+  }, [jwtToken]);
+
   const selectGenre = (genre) => {
-    if (selectedHateGenre.includes(genre)) {
-      setSelectedHateGenre(selectedHateGenre.filter((g) => g !== genre));
+    if (selectedHateGenre.includes(genre.id)) {
+      setSelectedHateGenre(selectedHateGenre.filter((g) => g !== genre.id));
     } else {
-      setSelectedHateGenre([...selectedHateGenre, genre]);
+      setSelectedHateGenre([...selectedHateGenre, genre.id]);
     }
   };
 
-  // 변경 사항 저장 함수
   const saveChanges = async () => {
-    // API 요청을 통해 서버에 비선호 장르 저장
     try {
       await axios.patch(
         "http://35.216.42.151:8080/api/v1/genre/dislike",
         {
-          genres: selectedHateGenre.map(
-            (genre) => genres.find((g) => g.genre === genre)?.id // 선택된 장르의 ID 전송
-          ),
+          genres: selectedHateGenre,
         },
         {
           headers: {
@@ -59,12 +69,15 @@ function EditHateGenre() {
           },
         }
       );
-      // 저장 후 '내 장르' 페이지로 이동
       navigate("/mymovie/genre");
     } catch (error) {
       console.error("비선호 장르 저장 오류:", error);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -74,12 +87,11 @@ function EditHateGenre() {
         <div className="movieContainer">
           {genres.map((g) => (
             <MovieGenreButton
-              key={g.genre}
-              onClick={() => selectGenre(g.genre)}
+              key={g.id}
+              onClick={() => selectGenre(g)}
               moviePoster={g.poster}
               movieGenre={g.genre}
-              selectedFavorite={selectedFavoriteGenre.includes(g.genre)}
-              selectedHate={selectedHateGenre.includes(g.genre)}
+              selectedHate={selectedHateGenre.includes(g.id)}
               isHateStep={true}
             />
           ))}

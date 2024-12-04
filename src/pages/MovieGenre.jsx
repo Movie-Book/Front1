@@ -108,8 +108,6 @@ function MovieGenre() {
             },
           }
         );
-        console.log("선호 장르 저장 성공");
-        localStorage.setItem('favoriteGenre', selectedFavoriteGenre);
       } else {
         await axios.patch(
           "http://35.216.42.151:8080/api/v1/genre/dislike",
@@ -131,8 +129,6 @@ function MovieGenre() {
             },
           }
         );
-        console.log("비선호 장르 저장 성공");
-        localStorage.setItem('hateGenre', selectedHateGenre);
 
       }
     } catch (error) {
