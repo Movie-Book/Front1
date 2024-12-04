@@ -23,6 +23,7 @@ const LoginPage = () => {
         headers: {
           'Content-Type': 'application/json',
           'accept': 'application/json' 
+          }
         }
       );
 

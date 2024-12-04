@@ -4,9 +4,9 @@ import BottomButton from "../components/BottomButton";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
-import axios from "axios";
 
 function MovieGenre() {
+  const navigate = useNavigate();
   const [selectedFavoriteGenre, setSelectedFavoriteGenre] = useState([]);
   const [showWarning, setShowWarning] = useState(true);
   const [selectedHateGenre, setSelectedHateGenre] = useState([]);
