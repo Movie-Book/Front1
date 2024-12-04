@@ -42,8 +42,6 @@ function FriendInfo() {
   const handleDeleteFriend = async () => {
     try {
       const token = localStorage.getItem("token");
-      console.log("토큰: ", token);
-console.log("전송 데이터: ", { id: name });
       const response = await axios.patch(
         "http://35.216.42.151:8080/api/v1/friend/delete",
         { id: name }, 
@@ -58,7 +56,7 @@ console.log("전송 데이터: ", { id: name });
       if (response.status === 200) {
         console.log("친구 삭제에 성공했습니다.");
         setIsModalOpen(false); // 모달 닫기
-        navigate("/friendlist"); // 친구 목록 페이지로 이동
+        navigate("/profile/friend-list"); // 친구 목록 페이지로 이동
       }
     } catch (error) {
       if (error.response) {
