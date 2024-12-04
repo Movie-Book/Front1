@@ -18,7 +18,7 @@ const LoginPage = () => {
     };
 
     try {
-      const response = await axios.post('http://35.216.42.151:8080/user/login', loginData, {
+      const response = await axios.post('http://35.216.42.151:8080/api/v1/user/login', loginData, {
         headers: {
           'Content-Type': 'application/json',
           'accept': 'application/json' 
@@ -26,7 +26,8 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
-        localStorage.setItem('token', response.data.token);
+        console.log(response.data);
+        localStorage.setItem('token', response.data.accessToken);
         navigate('/home');
       }
     } catch (error) {
