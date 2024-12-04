@@ -10,8 +10,8 @@ function EditHateGenre() {
   const jwtToken = localStorage.getItem("token"); // JWT 토큰 가져오기
 
   // 로컬 스토리지에서 장르 정보 가져오기
-  const savedFavoriteGenres = JSON.parse(localStorage.getItem("favoriteGenres")) || [];
-  const savedHateGenres = JSON.parse(localStorage.getItem("hateGenres")) || [];
+  const savedFavoriteGenres = JSON.parse(localStorage.getItem("favoriteGenre")) || [];
+  const savedHateGenres = JSON.parse(localStorage.getItem("hateGenre")) || [];
 
   const [selectedFavoriteGenre, setSelectedFavoriteGenre] = useState(savedFavoriteGenres);
   const [selectedHateGenre, setSelectedHateGenre] = useState(savedHateGenres);

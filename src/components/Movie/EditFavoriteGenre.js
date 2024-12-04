@@ -10,7 +10,7 @@ function EditFavoriteGenre() {
   const jwtToken = localStorage.getItem("token"); // JWT 토큰 가져오기
 
   // 로컬 스토리지에서 장르 정보 가져오기
-  const savedFavoriteGenres = JSON.parse(localStorage.getItem("favoriteGenres")) || [];
+  const savedFavoriteGenres = JSON.parse(localStorage.getItem("favoriteGenre")) || [];
 
   const [selectedFavoriteGenre, setSelectedFavoriteGenre] = useState(savedFavoriteGenres);
 

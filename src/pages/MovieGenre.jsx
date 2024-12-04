@@ -13,6 +13,8 @@ function MovieGenre() {
   const [step, setStep] = useState("선호");
   var [movies, setMovies] = useState([]);
 
+  const navigate = useNavigate();
+
   const recommendMovies = async()=> {
 
     try{
@@ -87,6 +89,16 @@ function MovieGenre() {
   const saveGenres = async () => {
     try {
       if (step === "선호") {
+        await axios.patch(
+          "http://35.216.42.151:8080/api/v1/genre/like",
+          { genres: [] },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
         await axios.post(
           "http://35.216.42.151:8080/api/v1/genre/like",
           { genres: selectedFavoriteGenre },
@@ -97,7 +109,19 @@ function MovieGenre() {
             },
           }
         );
+        console.log("선호 장르 저장 성공");
+        localStorage.setItem('favoriteGenre', selectedFavoriteGenre);
       } else {
+        await axios.patch(
+          "http://35.216.42.151:8080/api/v1/genre/dislike",
+          { genres: [] },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${jwtToken}`,
+            },
+          }
+        );
         await axios.post(
           "http://35.216.42.151:8080/api/v1/genre/dislike",
           { genres: selectedHateGenre },
@@ -108,6 +132,9 @@ function MovieGenre() {
             },
           }
         );
+        console.log("비선호 장르 저장 성공");
+        localStorage.setItem('hateGenre', selectedHateGenre);
+
       }
     } catch (error) {
       console.error("장르 저장 실패:", error);
@@ -121,7 +148,7 @@ function MovieGenre() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     } else if (step === "비선호") {
       await saveGenres(); // 비선호 장르 저장
-      navigate("/movie");
+      nextPage();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -157,7 +184,7 @@ function MovieGenre() {
         </div>
       </div>
       <BottomButton
-        text={step === "선호" ? "다음" : "저장하고 완료"}
+        text={step === "선호" ? "다음" : "완료"}
         disabled={step === "선호" && selectedFavoriteGenre.length === 0}
         backgroundColor={selectedFavoriteGenre.length === 0 ? "gray" : "#d04040"}
         onClick={next}
