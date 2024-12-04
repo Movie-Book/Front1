@@ -1,9 +1,10 @@
 import MovieTasteButton from '../components/MovieTasteButton';
 import Bottom2Button from "../components/Bottom2Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MovieRateDialog from "../components/MovieRateDialog";
 import Logo from "../components/Logo";
+import axios from 'axios';
 
 function MovieTaste() {
 
@@ -12,51 +13,77 @@ function MovieTaste() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovieTitle, setSelectedMovieTitle] = useState(null);
   const [selectedMoviePoster, setSelectedMoviePoster] = useState(null);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
   const [starRating, setStarRating] = useState({});
 
   var user = "___";
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const movies = [
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화1"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화2"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화3"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화4"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화5"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화6"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화7"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화8"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화9"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화10"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화11"},
-    {moviePoster : "/image/parasite.jpg", movieTitle : "영화12"},
-  ]
+  console.log(location.state);
+  const movies = location.state?.movies || [];
+
+  const movieWatched = async() => {
+    try{
+      const token = localStorage.getItem('token');
+
+      const starRatingData = Object.entries(starRating).map(([movieId, rating]) => ({
+        movieId, rating
+      }));
+      const response = await axios.post('http://35.216.42.151:8080/api/v1/movie/watch', starRatingData, {
+        headers : {
+          Authorization: `Bearer ${token}`
+        },
+      });
+      if(response.status === 200){
+        return response.data;
+      }
+    }
+    catch(error){
+      if(error.response){
+        if(error.response.status===400){
+          console.log('잘못된 접근입니다.');
+        }
+        else if(error.response.status===403){
+          console.log('유효성검사 실패');
+        }
+        else{
+          console.error('Error : ',error);
+          console.log('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.')
+        }
+      }
+      return [];
+    }
+  }
 
   const back = () => {
     navigate('/movieGenre');
   }
 
   const done = () => {
+    movieWatched();
     navigate('/');
   }
 
-  const selectMovie = (movieTitle, moviePoster) => {
+  const selectMovie = (movieId, movieName, poster) => {
     setOpenModal(true);
-    setSelectedMovieTitle(movieTitle);
-    setSelectedMoviePoster(moviePoster);
+    setSelectedMovieId(movieId);
+    setSelectedMovieTitle(movieName);
+    setSelectedMoviePoster(poster);
   }
 
-  const updateRating = (movieTitle, newRating) => {
+  const updateRating = (movieId, newRating) => {
     setStarRating(prevRatings => ({
       ...prevRatings,
-      [movieTitle] : newRating
+      [movieId] : newRating
     }));
-    if(newRating > 0 && !selectedMovie.includes(movieTitle)){
-      setSelectedMovie([...selectedMovie, movieTitle]);
+    
+    if(newRating > 0 && !selectedMovie.includes(movieId)){
+      setSelectedMovie([...selectedMovie, movieId]);
     }
     else if(newRating === 0){
-      setSelectedMovie(selectedMovie.filter(m=>m !== movieTitle));
+      setSelectedMovie(selectedMovie.filter(m => m !== movieId));
     }
   };
 
@@ -79,12 +106,12 @@ function MovieTaste() {
           <div className="movieContainer">
           {movies.map((m) => (
                 <MovieTasteButton 
-                  key={m.movieTitle} 
-                  onClick={() => selectMovie(m.movieTitle, m.moviePoster)} 
-                  moviePoster = {m.moviePoster} 
-                  movieTitle = {m.movieTitle} 
-                  rate={starRating[m.movieTitle] || 0}
-                  selected={starRating[m.movieTitle] > 0} 
+                  key={m.movieId} 
+                  onClick={() => selectMovie(m.movieId, m.movieName, m.poster)} 
+                  moviePoster = {m.poster} 
+                  movieTitle = {m.movieName} 
+                  rate={starRating[m.movieId] || 0}
+                  selected={starRating[m.movieId] > 0} 
                 />
             ))}
           </div>
@@ -97,9 +124,10 @@ function MovieTaste() {
         </div>
       <MovieRateDialog 
           openModal={openModal} 
+          movieId = {selectedMovieId}
           movieTitle={selectedMovieTitle} 
           moviePoster={selectedMoviePoster} 
-          rate={starRating[selectedMovieTitle] || 0} 
+          rate={(movies.find(movie => movie.movieId === selectedMovieId)?.rating) || 0}
           rateUpdate={updateRating}
           onClose={()=>setOpenModal(false)}
         />

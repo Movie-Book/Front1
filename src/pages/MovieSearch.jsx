@@ -5,6 +5,7 @@ import { useState } from "react";
 import MovieTasteButton from "../components/MovieTasteButton";
 import BottomNavigationBar from "../components/BottomNavigationBar";
 import MovieRateDialog from "../components/MovieRateDialog";
+import axios from "axios";
 
 function MovieSearch(){
     const navigate=useNavigate();
@@ -14,53 +15,68 @@ function MovieSearch(){
     const [selectedMoviePoster, setSelectedMoviePoster] = useState(null);
     const [starRating, setStarRating] = useState({});
 
-    const movies = [
-        {moviePoster : "/image/parasite.jpg", movieTitle : "1"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "12"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "123"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "4"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "45"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "456"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "7"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "78"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "789"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "9"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "98"},
-        {moviePoster : "/image/parasite.jpg", movieTitle : "987"},
-      ]
+    const [searchText, setSearchText] = useState('');
+    const [searchResult, setSearchResult] = useState([]);
 
-      const [searchText, setSearchText] = useState('');
-      const [searchResult, setSearchResult] = useState(movies);
-
-      const search = (text) => {
-        setSearchText(text);
-        if(text===''){
-            setSearchResult(movies);
-        }
-        else {
-            const result = movies.filter((m)=>m.movieTitle.includes(text));
-            setSearchResult(result);
-        }
+    const searchMovies = async()=>{
+      try{
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`http://35.216.42.151:8080/api/v1/movie/search?keyword=${encodeURIComponent(searchText)}`, {
+          headers : {
+            Authorization : `Bearer ${token}`
+          }
+        });
+        if(response.status === 200)
+          return response.data;
       }
-
-      const selectMovie = (movieTitle, moviePoster) => {
-        setOpenModal(true);
-        setSelectedMovieTitle(movieTitle);
-        setSelectedMoviePoster(moviePoster);
+      catch(error){
+        if(error.response){
+          if(error.response.status === 400){
+            console.log('잘못된 검색입니다');
+          }
+          else if(error.response.status === 403){
+            console.log('유효성검사 실패');
+          }
+          else{
+            console.error('Error : ',error);
+            console.log('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.')
+          }
+        }
+        return [];
       }
+    }
 
-      const updateRating = (movieTitle, newRating) => {
-        setStarRating(prevRatings => ({
-          ...prevRatings,
-          [movieTitle] : newRating
-        }));
-        if(newRating > 0 && !selectedMovie.includes(movieTitle)){
-          setSelectedMovie([...selectedMovie, movieTitle]);
-        }
-        else if(newRating === 0){
-          setSelectedMovie(selectedMovie.filter(m=>m !== movieTitle));
-        }
-      };
+    const search = async(text) => {
+      setSearchText(text);
+      if(text===''){
+          setSearchResult([]);
+      }
+      else {
+        const result = await searchMovies();
+        setSearchResult(result);
+      }
+    }
+
+    const selectMovie = (movieTitle, moviePoster) => {
+      setOpenModal(true);
+      setSelectedMovieTitle(movieTitle);
+      setSelectedMoviePoster(moviePoster);
+    }
+
+    const updateRating = (movieTitle, newRating) => {
+      setStarRating(prevRatings => ({
+        ...prevRatings,
+        [movieTitle] : newRating
+      }));
+      if(newRating > 0 && !selectedMovie.includes(movieTitle)){
+        setSelectedMovie([...selectedMovie, movieTitle]);
+      }
+      else if(newRating === 0){
+        setSelectedMovie(selectedMovie.filter(m=>m !== movieTitle));
+      }
+    };
+
+    const uniqueSearchResult = Array.from(new Set(searchResult.map((m) => m.movieName))).map((title) => searchResult.find((m) => m.movieName === title));
 
     return(
         <div>
@@ -68,16 +84,17 @@ function MovieSearch(){
             <div className="container">
                 <SearchBar text="영화제목을 입력하세요" searchText={searchText} onSearch={search}/>
                 <div className="searchResultContainer">
-                    {searchResult.map((m) => (
+                    {              
+                    searchResult ? uniqueSearchResult.map((m) => (
                             <MovieTasteButton
-                                key={m.movieTitle} 
-                                onClick={() => selectMovie(m.movieTitle, m.moviePoster)} 
-                                moviePoster = {m.moviePoster} 
-                                movieTitle = {m.movieTitle} 
-                                rate={starRating[m.movieTitle] || 0}
-                                selected={starRating[m.movieTitle] > 0} 
+                                key={m.movieName} 
+                                onClick={() => selectMovie(m.movieName, m.poster)} 
+                                moviePoster = {m.poster} 
+                                movieTitle = {m.movieName} 
+                                rate={starRating[m.movieName] || 0}
+                                selected={starRating[m.movieName] > 0} 
                             />
-                        ))}
+                        )) : <div>검색결과가 없습니다</div>}
                 </div>
             </div>
             <BottomNavigationBar/>

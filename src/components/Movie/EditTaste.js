@@ -6,6 +6,7 @@ import MovieRateDialog from "../MovieRateDialog";
 import Logo from "../Logo";
 import BottomNavigationBar from '../BottomNavigationBar';
 import BackButtonWithMypage from '../BackButtonWithMypage';
+import axios from 'axios';
 
 function MovieTaste() {
   
@@ -16,110 +17,84 @@ function MovieTaste() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovieTitle, setSelectedMovieTitle] = useState(null);
   const [selectedMoviePoster, setSelectedMoviePoster] = useState(null);
-  /*const [stars, setStars] = useState(0);*/
-  const [movieRatings, setMovieRatings] = useState({}); 
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
 
   var user = "___";
 
-  const movies = [
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화1" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화2" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화3" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화4" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화5" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화6" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화7" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화8" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화9" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화10" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화11" },
-    { moviePoster: "/image/parasite.jpg", movieTitle: "영화12" },
-  ];
+  const movies = location.state.movies;
 
-  const selectMovie = (movieTitle, moviePoster) => {
+  const selectMovie = (movieId, movieName, poster) => {
     setOpenModal(true);
-/*    setStars(movieRatings[movieTitle] || 0); */
-    setSelectedMovieTitle(movieTitle);
-    setSelectedMoviePoster(moviePoster);
-/*    if (selectedMovie.includes(movieTitle)) {
-      setSelectedMovie(selectedMovie.filter((m) => m !== movieTitle));
-    } else {
-      setSelectedMovie([...selectedMovie, movieTitle]);
-    }
-  */
-  };
+    setSelectedMovieId(movieId);
+    setSelectedMovieTitle(movieName);
+    setSelectedMoviePoster(poster);
+  }
 
-/*  const saveRating = () => {
-    setMovieRatings(prev => {
-      const updatedRatings = { ...prev, [selectedMovieTitle]: movieRatings };
-      localStorage.setItem('movieRatings', JSON.stringify(updatedRatings)); 
-      return updatedRatings;
-    });
-    setOpenModal(false);
+  const updateRating = async(movieId, newRating) => {
+    movies.find((m) => m.movieId === movieId).rating=newRating;
+    try{
+      const token = localStorage.getItem('token');
+      const starRatingData = movies.map((m)=>({
+        movieId : m.movieId,
+        rating : m.rating
+      }));
+      const response = await axios.patch('http://35.216.42.151:8080/api/v1/movie/rating', starRatingData, {
+        headers : {
+          Authorization : `Bearer ${token}`
+        },
+      });
+      if(response.status === 200){
+        console.log("영화별점수정완료");
+      }
+    }
+    catch(error){
+      if(error.response){
+        if(error.response.status===400){
+          console.log("수정할 영화 정보가 없습니다.");
+        }
+        else if(error.response.status === 403){
+          console.log("유효성검사 실패");
+        }
+        else{
+          console.error('Error : ',error);
+          console.log('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.')
+        }
+      }
+    }
   };
-*/
-
-  const updateRating = (movieTitle, newRating) => {
-    setMovieRatings(prevRatings => ({
-      ...prevRatings,
-      [movieTitle] : newRating
-    }));
-    if(newRating > 0 && !selectedMovie.includes(movieTitle)){
-      setSelectedMovie([...selectedMovie, movieTitle]);
-    }
-    else if(newRating === 0){
-      setSelectedMovie(selectedMovie.filter(m=>m !== movieTitle));
-    }
-  };
-
-/*  useEffect(() => {
-    const savedRatings = JSON.parse(localStorage.getItem('movieRatings')) || {};
-    setMovieRatings(savedRatings);
-    if (selectedMovie.length < 3) {
-      setShowWarning(true);
-    } else {
-      setShowWarning(false);
-    }
-  }, [selectedMovie]); */
 
   return (
     <div>
-      {/*<div className="Logo">
-        <img onClick={() => navigate(-1)}className="back" src="/image/back.png"alt="back"/>
-        <h3 className="info">내 영화 편집</h3>
-        <img onClick={() => navigate("/profile")} className="mypage" src="/image/mypage.png" alt="mypage"/>
-      </div>*/}
       <BackButtonWithMypage title="내 영화 편집"/>
       <div className="container">
         <h3>{user}님이 본 영화를 평가해주세요</h3>
         <h5 style={{color : 'red'}}>별점을 수정하고 싶은 영화를 누르고 수정해주세요</h5>
         <div className="movieContainer">
           {movies.map((m) => (
-            <MovieTasteButton
-              key={m.movieTitle}
-              onClick={() => selectMovie(m.movieTitle, m.moviePoster)}
-              moviePoster={m.moviePoster}
-              movieTitle={m.movieTitle}
-              selected={movieRatings[m.movieTitle] > 0}
-              rate={movieRatings[m.movieTitle] || 0}
+            <MovieTasteButton 
+                key={m.movieId} 
+                onClick={() => selectMovie(m.movieId, m.movieName, m.poster)} 
+                moviePoster = {m.poster} 
+                movieTitle = {m.movieName} 
+                rate={m.rating || 0}
+                selected={m.rating > 0} 
             />
           ))}
         </div>
       </div>
       <BottomNavigationBar/>
       <MovieRateDialog
-        openModal={openModal}
-        movieTitle={selectedMovieTitle}
-        moviePoster={selectedMoviePoster}
-        rate={movieRatings[selectedMovieTitle]||0}
-        /*rate={stars}*/
-        /*onStarChange={setStars} */
-        rateUpdate={updateRating} 
+        openModal={openModal} 
+        movieId = {selectedMovieId}
+        movieTitle={selectedMovieTitle} 
+        moviePoster={selectedMoviePoster} 
+        rate={(movies.find(movie => movie.movieId === selectedMovieId)?.rating) || 0}
+        rateUpdate={updateRating}
         onClose={()=>setOpenModal(false)}
       />
     </div>
   
   );
-}
+};
 
 export default MovieTaste;

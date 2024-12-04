@@ -4,15 +4,48 @@ import BottomButton from "../components/BottomButton";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
+import axios from "axios";
 
 function MovieGenre() {
   const [selectedFavoriteGenre, setSelectedFavoriteGenre] = useState([]);
   const [showWarning, setShowWarning] = useState(true);
   const [selectedHateGenre, setSelectedHateGenre] = useState([]);
   const [step, setStep] = useState("선호");
+  var [movies, setMovies] = useState([]);
 
+  const recommendMovies = async()=> {
+
+    try{
+      const token = localStorage.getItem('token');
+    
+      const response = await axios.get('http://35.216.42.151:8080/api/v1/movie/recommend', {
+        headers : {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      if(response.status === 200){
+        return response.data;
+      }
+    }
+    catch(error){
+      if(error.response){
+        if(error.response.status===400){
+          console.log('존재하지 않는 유저입니다.');
+        }
+        else if(error.response.status===403){
+          console.log('유효성검사 실패');
+        }
+        else{
+          console.error('Error : ',error);
+          console.log('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.')
+        }
+      }
+      return [];
+    }
+  }
+  var user = "___";
   const jwtToken = localStorage.getItem("token"); // JWT 토큰 가져오기
-  const navigate = useNavigate();
 
   const genres = [
     { id: 1, poster: "https://image.tmdb.org/t/p/w400/cadVm6gKYYukmPysHGCwrawUHHa.jpg", genre: "액션" },
@@ -45,6 +78,12 @@ function MovieGenre() {
     }
   };
 
+  const nextPage = async() => {
+    const recommendedMovies = await recommendMovies();
+    const uniqueRecommendMovies = Array.from(new Set(recommendedMovies.map((m) => m.movieName))).map((title) => recommendedMovies.find((m) => m.movieName === title));
+    setMovies(uniqueRecommendMovies);
+    navigate('/movie', {state : {'movies' : uniqueRecommendMovies}});
+  }
   const saveGenres = async () => {
     try {
       if (step === "선호") {

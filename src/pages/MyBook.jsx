@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import MovieRateDialog from "../components/MovieRateDialog";
-import Logo from "../components/Logo";
 import BookTasteButton from '../components/BookTasteButton';
 import BackButtonWithMypage from "../components/BackButtonWithMypage";
 import BottomNavigationBar from "../components/BottomNavigationBar";
@@ -32,14 +31,6 @@ function MyBook() {
     {bookImage : "/image/book1.jpg", bookTitle : "책12"},
 
   ]
-
-  const back = () => {
-    navigate('/home');
-  }
-
-  const done = () => {
-    navigate('/');
-  }
 
   const selectBook = (bookTitle, bookImage) => {
     setOpenModal(true);

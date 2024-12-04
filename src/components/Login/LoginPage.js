@@ -19,18 +19,15 @@ const LoginPage = () => {
     };
 
     try {
-      const response = await axios.post(
-        'http://35.216.42.151:8080/api/v1/user/login',
-        loginData,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-          },
+      const response = await axios.post('http://35.216.42.151:8080/api/v1/user/login', loginData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json' 
         }
       );
 
       if (response.status === 200) {
+
         localStorage.setItem('token', response.data.accessToken); //로그인 유지 처리 안 되어있음
         
         navigate('/home'); // 로그인 성공 후 홈으로 이동
