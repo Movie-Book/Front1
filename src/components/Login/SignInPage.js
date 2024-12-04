@@ -29,7 +29,7 @@ const SignInPage = () => {
     }
   
     try {
-      const response = await axios.post('http://35.216.42.151:8080/user/join', signUpData, {
+      const response = await axios.post('http://35.216.42.151:8080/api/v1/user/join', signUpData, {
         headers: {
           'Content-Type': 'application/json',
           'accept': 'application/json',

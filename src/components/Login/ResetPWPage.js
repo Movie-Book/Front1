@@ -40,7 +40,7 @@ const ResetPWPage = () => {
 
     if (validatePassword()) {
       try {
-        const response = await axios.post('http://35.216.42.151:8080/user/reset-pw', {
+        const response = await axios.post('http://35.216.42.151:8080/api/v1/user/reset-pw', {
           id: userId,
           password: password,
           rePassword: confirmPassword,

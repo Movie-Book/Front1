@@ -14,7 +14,7 @@ const FindIDPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.get(`http://35.216.42.151:8080/user/find-id`, {
+      const response = await axios.get(`http://35.216.42.151:8080/api/v1/user/find-id`, {
         params: {
           userName: name,
           email: email,
@@ -61,8 +61,8 @@ const FindIDPage = () => {
         {userId && <p className="success-message">{userId}</p>}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div className="back-login">
-          <a href="#" onClick={() => navigate('/profile/')}>로그인</a> | 
-          <a href="#" onClick={() => navigate('/profile/signin')}>회원가입</a>
+          <a href="#" onClick={() => navigate('/login/')}>로그인</a> | 
+          <a href="#" onClick={() => navigate('/login/signin')}>회원가입</a>
         </div>
       </form>
     </div>

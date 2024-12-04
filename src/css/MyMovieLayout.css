@@ -131,3 +131,9 @@
   .genre-section h5{
     text-align: center;
   }
+  .genre-card img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover; 
+  }
+  
