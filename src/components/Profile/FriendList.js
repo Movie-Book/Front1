@@ -20,7 +20,6 @@ function FriendList() {
   useEffect(() => {
     const fetchFriends = async () => {
       try {
-        console.log("API 호출 시작...");
         const response = await axios.get("http://35.216.42.151:8080/api/v1/friend", {
           headers: {
             Accept: "application/json",
@@ -28,12 +27,16 @@ function FriendList() {
           },
         });
 
-        console.log("API 응답 데이터:", response.data);
-
         // **데이터 검증 후 상태에 저장**
-        const validFriends = response.data.filter((friend) => friend?.id); // `friend.id`가 있는 데이터만
-        console.log("유효한 친구 데이터:", validFriends);
-
+        const validFriends = Object.values(
+          response.data
+            .filter((friend) => friend?.id)
+            .reduce((acc, friend) => {
+              acc[friend.id] = friend; 
+              return acc;
+            }, {})
+        );
+        
         setFriends(validFriends);
         setSearchResult(validFriends); // 초기 검색 결과 설정
       } catch (error) {
@@ -100,7 +103,7 @@ function FriendList() {
           {errorMessage ? ( // 에러 메시지 표시
             <p>{errorMessage}</p>
           ) : searchResult.length === 0 ? (
-            <p>친구가 아직 없어요</p>
+            <p>친구가 없어요</p>
           ) : (
             searchResult.map((friend) => (
               <FriendButton

@@ -1,7 +1,12 @@
+import axios from "axios";
 import React from "react";
 import { FaRegStar, FaStar } from "react-icons/fa";
 
+
+
+
 function FriendButton(props){
+
     return(
         <div className="friendButton">
             <div className='favorite' onClick={props.toggleStar}>
