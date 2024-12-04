@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 
 function MovieGenre() {
-  const navigate = useNavigate();
   const [selectedFavoriteGenre, setSelectedFavoriteGenre] = useState([]);
   const [showWarning, setShowWarning] = useState(true);
   const [selectedHateGenre, setSelectedHateGenre] = useState([]);
