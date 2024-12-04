@@ -84,7 +84,11 @@ function MyGenre() {
     <div>
       <BackButtonWithMypage title="내 장르" />
       <div className="container">
-        {/* 선호 장르 */}
+      <div className="genre-button">
+          <div>
+            <a href="#" className="movie-genre-switch"  onClick={() => navigate("/mymovie")}>영화 |</a> <a>&nbsp;장르</a>
+          </div>
+        </div>
         <div className="genre-section">
           <div className="genre-header">
             <h3>내 선호 장르</h3>
