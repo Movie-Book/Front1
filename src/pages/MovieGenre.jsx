@@ -13,7 +13,6 @@ function MovieGenre() {
   const [step, setStep] = useState("선호");
   var [movies, setMovies] = useState([]);
 
-
   const recommendMovies = async()=> {
 
     try{

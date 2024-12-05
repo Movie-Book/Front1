@@ -2,15 +2,15 @@ import axios from "axios";
 import MovieGenreButton from "../MovieGenreButton";
 import BottomButton from "../BottomButton";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackButtonWithMypage from "../BackButtonWithMypage";
 
 function EditHateGenre() {
   const navigate = useNavigate();
   const jwtToken = localStorage.getItem("token");
 
-  const [selectedHateGenre, setSelectedHateGenre] = useState([]); // 비선호 장르 상태
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
+  const location = useLocation();
+  const [hateGenres, setHateGenres] = useState(location.state.hateGenre); // 비선호 장르 상태
 
   const genres = [
     { id: 1, poster: "https://image.tmdb.org/t/p/w400/cadVm6gKYYukmPysHGCwrawUHHa.jpg", genre: "액션" },
@@ -26,31 +26,11 @@ function EditHateGenre() {
     { id: 11, poster: "https://image.tmdb.org/t/p/w400/xYnL0kA0V7aDvg8wupmWQbdgb9a.jpg", genre: "범죄" },
   ];
 
-  useEffect(() => {
-    const fetchHateGenres = async () => {
-      try {
-        const response = await axios.get("http://35.216.42.151:8080/api/v1/genre/dislike", {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-        setSelectedHateGenre(response.data.genres || []); // 안전하게 빈 배열로 대체
-      } catch (error) {
-        console.error("비선호 장르 가져오기 오류:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchHateGenres();
-  }, [jwtToken]);
-
   const selectGenre = (genre) => {
-    if (selectedHateGenre.includes(genre.id)) {
-      setSelectedHateGenre(selectedHateGenre.filter((g) => g !== genre.id));
+    if (hateGenres.includes(genre.id)) {
+      setHateGenres(hateGenres.filter((g) => g !== genre.id));
     } else {
-      setSelectedHateGenre([...selectedHateGenre, genre.id]);
+      setHateGenres([...hateGenres, genre.id]);
     }
   };
 
@@ -59,7 +39,7 @@ function EditHateGenre() {
       await axios.patch(
         "http://35.216.42.151:8080/api/v1/genre/dislike",
         {
-          genres: selectedHateGenre,
+          genres: hateGenres,
         },
         {
           headers: {
@@ -75,10 +55,6 @@ function EditHateGenre() {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
       <BackButtonWithMypage title="내 장르 편집" />
@@ -91,7 +67,7 @@ function EditHateGenre() {
               onClick={() => selectGenre(g)}
               moviePoster={g.poster}
               movieGenre={g.genre}
-              selectedHate={selectedHateGenre.includes(g.id)}
+              selectedHate={hateGenres.includes(g.id)}
               isHateStep={true}
             />
           ))}

@@ -92,9 +92,7 @@ function MyGenre() {
         <div className="genre-section">
           <div className="genre-header">
             <h3>내 선호 장르</h3>
-            <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/editFavoriteGenre")}>
-              편집
-            </button>
+            <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/editFavoriteGenre", { state: { favoriteGenre:  favoriteGenres.map((g)=>g.id) } })}>편집</button>
           </div>
           <div className="genre-list">
             {favoriteGenres.map((genre, index) => (
@@ -110,7 +108,7 @@ function MyGenre() {
         <div className="genre-section">
           <div className="genre-header">
             <h3>내 비선호 장르</h3>
-            <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/editHateGenre")}>
+            <button className="my-movie-edit-button" onClick={() => navigate("/mymovie/editHateGenre", {state : {'hateGenre' : hateGenres.map((g)=>g.id)}})}>
               편집
             </button>
           </div>
