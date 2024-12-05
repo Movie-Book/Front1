@@ -11,10 +11,15 @@ const MyPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   useEffect(() => {
+    // localStorage 또는 sessionStorage에서 유저 ID를 가져옴
     const fetchUserId = async () => {
-      // 실제 API 호출로 대체
-      const fetchedId = "user123";
-      setUserId(fetchedId);
+      const storedId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
+
+      if (storedId) {
+        setUserId(storedId); // 유저 ID 설정
+      } else {
+        setErrorMessage("유저 정보를 가져오는 데 실패했습니다.");
+      }
     };
 
     fetchUserId();
@@ -22,7 +27,7 @@ const MyPage = () => {
 
   const handleLogout = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       if (!token) throw new Error("JWT 토큰이 없습니다.");
 
       const response = await axios.post(
@@ -38,7 +43,10 @@ const MyPage = () => {
       );
 
       console.log("Logout successful:", response.data); // 로그아웃 성공 로그
-      localStorage.removeItem("token"); // 로그아웃 후 토큰 삭제
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId"); // 로그아웃 시 유저 ID 삭제
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("userId");
       navigate("/login"); // 로그인 페이지로 이동
     } catch (error) {
       if (error.response) {
@@ -79,7 +87,7 @@ const MyPage = () => {
       </div>
       <div className="profile-container">
         {errorMessage && <div className="error-message">{errorMessage}</div>}
-        <div className="welcome-message">안녕하세요! @{userId}님</div>
+        <div className="welcome-message">안녕하세요! {userId}님</div>
         <hr className="separator" />
         <ul className="mypage-menu">
           <li onClick={() => navigate("/profile/edit-user")}>회원정보 수정</li>

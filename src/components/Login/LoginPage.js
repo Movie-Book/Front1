@@ -27,9 +27,17 @@ const LoginPage = () => {
       });
 
       if (response.status === 200) {
-
-        localStorage.setItem('token', response.data.accessToken); //로그인 유지 처리 안 되어있음
-        console.log(localStorage.getItem('token'));
+        // 로그인 성공 시 토큰 및 유저 ID 저장
+        if (rememberMe) {
+          localStorage.setItem('token', response.data.accessToken);
+          localStorage.setItem('userId', username); // 유저 ID 저장
+        } else {
+          sessionStorage.setItem('token', response.data.accessToken);
+          sessionStorage.setItem('userId', username); // 유저 ID 저장
+        }
+        console.log(localStorage.getItem('token') || sessionStorage.getItem('token'));
+        console.log(localStorage.getItem('userId') || sessionStorage.getItem('userId'));
+        
         navigate('/home'); // 로그인 성공 후 홈으로 이동
       }
     } catch (error) {
