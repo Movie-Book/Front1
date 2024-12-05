@@ -2,16 +2,16 @@ import axios from "axios";
 import MovieGenreButton from "../MovieGenreButton";
 import BottomButton from "../BottomButton";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import BackButtonWithMypage from "../BackButtonWithMypage";
 
 function EditFavoriteGenre() {
   const navigate = useNavigate();
   const jwtToken = localStorage.getItem("token"); // JWT 토큰 가져오기
 
-  const [selectedFavoriteGenre, setSelectedFavoriteGenre] = useState([]); // 선호 장르 상태 초기값 설정
-  const [loading, setLoading] = useState(true); // 로딩 상태 추가
-
+  const location = useLocation();
+  const [favoriteGenres, setFavoriteGenres] = useState(location.state.favoriteGenre);
+  
   // 장르 목록
   const genres = [
     { id: 1, poster: "https://image.tmdb.org/t/p/w400/cadVm6gKYYukmPysHGCwrawUHHa.jpg", genre: "액션" },
@@ -27,33 +27,12 @@ function EditFavoriteGenre() {
     { id: 11, poster: "https://image.tmdb.org/t/p/w400/xYnL0kA0V7aDvg8wupmWQbdgb9a.jpg", genre: "범죄" },
   ];
 
-  // API를 통해 선호 장르 가져오기
-  useEffect(() => {
-    const fetchFavoriteGenres = async () => {
-      try {
-        const response = await axios.get("http://35.216.42.151:8080/api/v1/genre/like", {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        });
-        setSelectedFavoriteGenre(response.data.genres || []); // API 응답 데이터 없을 시 빈 배열로 설정
-      } catch (error) {
-        console.error("선호 장르 가져오기 오류:", error);
-      } finally {
-        setLoading(false); // 로딩 상태 해제
-      }
-    };
-
-    fetchFavoriteGenres();
-  }, [jwtToken]);
-
   // 장르 선택 핸들러
   const selectGenre = (genre) => {
-    if (selectedFavoriteGenre.includes(genre.id)) {
-      setSelectedFavoriteGenre(selectedFavoriteGenre.filter((g) => g !== genre.id));
+    if (favoriteGenres.includes(genre.id)) {
+      setFavoriteGenres(favoriteGenres.filter((g) => g !== genre.id));
     } else {
-      setSelectedFavoriteGenre([...selectedFavoriteGenre, genre.id]);
+      setFavoriteGenres([...favoriteGenres, genre.id]);
     }
   };
 
@@ -63,7 +42,7 @@ function EditFavoriteGenre() {
       await axios.patch(
         "http://35.216.42.151:8080/api/v1/genre/like",
         {
-          genres: selectedFavoriteGenre, // 장르 ID 배열 전송
+          genres: favoriteGenres, // 장르 ID 배열 전송
         },
         {
           headers: {
@@ -79,10 +58,6 @@ function EditFavoriteGenre() {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>; // 로딩 상태 표시
-  }
-
   return (
     <div>
       <BackButtonWithMypage title="내 장르 편집" />
@@ -95,7 +70,7 @@ function EditFavoriteGenre() {
               onClick={() => selectGenre(g)}
               moviePoster={g.poster}
               movieGenre={g.genre}
-              selectedFavorite={selectedFavoriteGenre.includes(g.id)}
+              selectedFavorite={favoriteGenres.includes(g.id)}
               isHateStep={false}
             />
           ))}
