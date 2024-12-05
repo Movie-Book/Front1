@@ -8,7 +8,7 @@ import AddFriendDialog from "../AddFriendDialog";
 
 function FriendList() {
   const navigate = useNavigate();
-  const jwtToken = localStorage.getItem("token"); // JWT 토큰 가져오기
+  const jwtToken = localStorage.getItem("token") || sessionStorage.getItem("token"); // JWT 토큰 가져오기
 
   const [friends, setFriends] = useState([]); // 친구 목록 상태
   const [searchText, setSearchText] = useState(""); // 검색어 상태

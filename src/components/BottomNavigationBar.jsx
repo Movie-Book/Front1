@@ -17,7 +17,7 @@ function BottomNavigationBar(props){
     const mymovie=async()=>{
 
         try{
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token') || sessionStorage.getItem("token");
 
             const response = await axios.get('http://35.216.42.151:8080/api/v1/movie/watch', {
                 headers : {

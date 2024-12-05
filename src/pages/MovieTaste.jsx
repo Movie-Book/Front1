@@ -26,7 +26,7 @@ function MovieTaste() {
 
   const movieWatched = async() => {
     try{
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token') || sessionStorage.getItem("token");
 
       const starRatingData = Object.entries(starRating).map(([movieId, rating]) => ({
         movieId, rating

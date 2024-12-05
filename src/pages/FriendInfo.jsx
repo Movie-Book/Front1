@@ -15,7 +15,7 @@ function FriendInfo() {
 
   const friendRecommendedBook = async (name) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       const response = await axios.get(`http://35.216.42.151:8080/api/v1/friend/${name}/book`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -41,7 +41,7 @@ function FriendInfo() {
 
   const handleDeleteFriend = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       const response = await axios.patch(
         "http://35.216.42.151:8080/api/v1/friend/delete",
         { id: name }, 

@@ -23,7 +23,7 @@ function MyGenre() {
   const navigate = useNavigate();
   const [favoriteGenres, setFavoriteGenres] = useState([]);
   const [hateGenres, setHateGenres] = useState([]);
-  const jwtToken = localStorage.getItem("token"); // 토큰 정보 가져오기
+  const jwtToken = localStorage.getItem("token") || sessionStorage.getItem("token"); // 토큰 정보 가져오기
 
   // 선호 장르 가져오기
   const fetchFavoriteGenres = async () => {

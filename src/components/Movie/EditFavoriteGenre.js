@@ -7,7 +7,8 @@ import BackButtonWithMypage from "../BackButtonWithMypage";
 
 function EditFavoriteGenre() {
   const navigate = useNavigate();
-  const jwtToken = localStorage.getItem("token"); // JWT 토큰 가져오기
+  const jwtToken = localStorage.getItem("token") || sessionStorage.getItem("token"); // JWT 토큰 가져오기
+  const [user, setUser] = useState(""); // 사용자 ID 상태 추가
 
   const location = useLocation();
   const [favoriteGenres, setFavoriteGenres] = useState(location.state.favoriteGenre);
@@ -58,11 +59,21 @@ function EditFavoriteGenre() {
     }
   };
 
+  useEffect(() => {
+    // 로컬 스토리지에서 사용자 ID 가져오기
+    const storedUserId = localStorage.getItem("userId") || sessionStorage.getItem("userId");
+    if (storedUserId) {
+      setUser(storedUserId);
+    } else {
+      setUser("사용자"); // ID가 없을 때 기본값
+    }
+  }, []);
+
   return (
     <div>
       <BackButtonWithMypage title="내 장르 편집" />
       <div className="container">
-        <h3>좋아하는 영화 장르를 알려주세요</h3>
+        <h3>{user}님이 좋아하는 영화 장르를 알려주세요</h3>
         <div className="movieContainer">
           {genres.map((g) => (
             <MovieGenreButton

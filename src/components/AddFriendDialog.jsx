@@ -4,7 +4,7 @@ import axios from "axios";
 function AddFriendDialog({ openModal, onClose }) {
   const modalRef = useRef();
   const [friendId, setFriendId] = useState(""); // 입력된 친구 아이디 상태
-  const jwtToken = localStorage.getItem("token"); // JWT 토큰 가져오기
+  const jwtToken = localStorage.getItem("token") || sessionStorage.getItem("token"); // JWT 토큰 가져오기
 
   useEffect(() => {
     if (openModal) {
