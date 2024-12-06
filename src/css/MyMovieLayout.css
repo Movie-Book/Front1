@@ -87,6 +87,12 @@
     padding: 0px 30px;
   }
   
+  .genre-header {
+    display: flex; /* 플렉스박스 사용 */
+    justify-content: space-between; /* 양 끝 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+  }
+
   .my-movie-edit-button {
     padding: 10px 20px;
     background-color: var(--main-red);
@@ -96,7 +102,8 @@
     cursor: pointer;
     font-size: 24px;
     font-weight: bold;
-    margin : 20px 0px
+    margin : 20px 0px;
+    margin-left: auto;
   }
 
   .noEditButton{
