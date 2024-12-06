@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-function AddFriendDialog({ openModal, onClose }) {
+function AddFriendDialog({ openModal, onClose, onFriendAdded }) {
   const modalRef = useRef();
   const [friendId, setFriendId] = useState(""); // 입력된 친구 아이디 상태
   const jwtToken = localStorage.getItem("token") || sessionStorage.getItem("token"); // JWT 토큰 가져오기
@@ -20,11 +20,11 @@ function AddFriendDialog({ openModal, onClose }) {
       alert("친구 아이디를 입력해주세요.");
       return;
     }
-  
+
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://35.216.42.151:8080/api/v1/friend/add",
-        { "id" : friendId },
+        { id: friendId },
         {
           headers: {
             "Content-Type": "application/json",
@@ -33,14 +33,17 @@ function AddFriendDialog({ openModal, onClose }) {
           },
         }
       );
-      setFriendId("");
+
       alert(`친구 추가에 성공했습니다.\n친구 아이디: ${friendId}`);
-      onClose();
+      setFriendId(""); // 입력 초기화
+      onFriendAdded(); // 부모 컴포넌트에서 친구 목록 재조회
+      onClose(); // 모달 닫기
     } catch (error) {
-        alert(`친구 추가에 실패했습니다.\n친구 아이디: ${friendId}`);
+      console.error("친구 추가 실패:", error);
+      alert(`친구 추가에 실패했습니다.\n친구 아이디: ${friendId}`);
     }
   };
-  
+
   return (
     <div className="container">
       <dialog ref={modalRef} className="addFriendDialog">

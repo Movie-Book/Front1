@@ -10,6 +10,7 @@ function FriendInfo() {
   const navigate = useNavigate();
   const [starRating, setStarRating] = useState({});
   const [books, setBooks] = useState([]);
+  const jwtToken = localStorage.getItem("token") || sessionStorage.getItem("token"); // 토큰 정보 가져오기
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -41,14 +42,13 @@ function FriendInfo() {
 
   const handleDeleteFriend = async () => {
     try {
-      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-      const response = await axios.patch(
-        "http://35.216.42.151:8080/api/v1/friend/delete",
-        { id: name }, 
+      const response = await axios.patch("http://35.216.42.151:8080/api/v1/friend/delete",
+        { "id": name }, 
         {
           headers: {
+            "Content-Type": "application/json",
             Accept: "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${jwtToken}`,
           },
         }
       );

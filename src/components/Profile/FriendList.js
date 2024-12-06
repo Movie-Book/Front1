@@ -17,45 +17,43 @@ function FriendList() {
   const [errorMessage, setErrorMessage] = useState(""); // 에러 메시지 상태
 
   // **친구 목록 API 호출**
+  const fetchFriends = async () => {
+    try {
+      const response = await axios.get("http://35.216.42.151:8080/api/v1/friend", {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${jwtToken}`, // 인증 헤더 추가
+        },
+      });
+
+      // **데이터 검증 후 상태에 저장**
+      const validFriends = Object.values(
+        response.data
+          .filter((friend) => friend?.id)
+          .reduce((acc, friend) => {
+            acc[friend.id] = friend;
+            return acc;
+          }, {})
+      );
+
+      setFriends(validFriends);
+      setSearchResult(validFriends); // 초기 검색 결과 설정
+      setErrorMessage(""); // 에러 메시지 초기화
+    } catch (error) {
+      console.error("친구 목록 가져오기 오류:", error);
+      setErrorMessage("친구 목록을 불러오지 못했습니다. 다시 시도해주세요.");
+    }
+  };
+
   useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const response = await axios.get("http://35.216.42.151:8080/api/v1/friend", {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${jwtToken}`, // 인증 헤더 추가
-          },
-        });
-
-        // **데이터 검증 후 상태에 저장**
-        const validFriends = Object.values(
-          response.data
-            .filter((friend) => friend?.id)
-            .reduce((acc, friend) => {
-              acc[friend.id] = friend; 
-              return acc;
-            }, {})
-        );
-        
-        setFriends(validFriends);
-        setSearchResult(validFriends); // 초기 검색 결과 설정
-      } catch (error) {
-        console.error("친구 목록 가져오기 오류:", error);
-        setErrorMessage("친구 목록을 불러오지 못했습니다. 다시 시도해주세요.");
-      }
-    };
-
     fetchFriends();
   }, [jwtToken]);
 
   // **검색 기능**
   useEffect(() => {
-
     const result = friends.filter(
       (friend) => friend.id && friend.id.includes(searchText) // `friend.id` 검증 및 검색
     );
-
-
     setSearchResult(result);
   }, [friends, searchText]);
 
@@ -65,7 +63,6 @@ function FriendList() {
 
   // **친구 즐겨찾기 상태 토글**
   const toggleFavorite = (id) => {
-
     setFriends((prevFriends) =>
       prevFriends.map((friend) =>
         friend.id === id ? { ...friend, favorite: !friend.favorite } : friend
@@ -104,8 +101,8 @@ function FriendList() {
           ) : (
             searchResult.map((friend) => (
               <FriendButton
-                key={friend.id} 
-                name={friend.id} 
+                key={friend.id}
+                name={friend.id}
                 favorite={friend.favorite}
                 toggleStar={() => toggleFavorite(friend.id)}
                 onClick={() =>
@@ -117,7 +114,11 @@ function FriendList() {
         </div>
       </div>
       <BottomNavigationBar />
-      <AddFriendDialog openModal={openModal} onClose={() => setOpenModal(false)} />
+      <AddFriendDialog
+        openModal={openModal}
+        onClose={() => setOpenModal(false)}
+        onFriendAdded={fetchFriends} // 친구 목록 재조회
+      />
     </div>
   );
 }
