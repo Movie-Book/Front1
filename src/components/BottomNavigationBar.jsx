@@ -26,7 +26,10 @@ function BottomNavigationBar(props){
             });
 
             if(response.status === 200){
-                return response.data;                
+                return response.data.filter(
+                    (movie, index, self) =>
+                      index === self.findIndex((m) => m.movieId === movie.movieId)
+                  );           
               }
             }
             catch(error){

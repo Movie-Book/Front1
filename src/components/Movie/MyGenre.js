@@ -70,6 +70,46 @@ function MyGenre() {
     }
   };
 
+  const mymovie=async()=>{
+
+    try{
+        const token = localStorage.getItem('token') || sessionStorage.getItem("token");
+
+        const response = await axios.get('http://35.216.42.151:8080/api/v1/movie/watch', {
+            headers : {
+                Authorization : `Bearer ${token}`
+            }
+        });
+
+        if(response.status === 200){
+            return response.data.filter(
+              (movie, index, self) =>
+                index === self.findIndex((m) => m.movieId === movie.movieId)
+            );
+          }
+        }
+        catch(error){
+          if(error.response){
+            if(error.response.status===400){
+              console.log("조회할 영화 정보가 없습니다");
+            }
+            else if(error.response.status===403){
+              console.log('유효성검사 실패');
+            }
+            else{
+              console.error('Error : ',error);
+              console.log('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.')
+            }
+          }
+          return [];
+    }
+}
+
+const toMyMovie=async()=>{
+  const movie = await mymovie();
+  navigate("/mymovie", {state : {movies : movie}})
+}
+
   // 컴포넌트가 마운트될 때 API 호출
   useEffect(() => {
     if (jwtToken) {
@@ -86,7 +126,7 @@ function MyGenre() {
       <div className="container">
       <div className="genre-button">
           <div>
-            <a href="#" className="movie-genre-switch"  onClick={() => navigate("/mymovie")}>영화 |</a> <a>&nbsp;장르</a>
+            <a href="#" className="movie-genre-switch"  onClick={toMyMovie}>영화 |</a> <a>&nbsp;장르</a>
           </div>
         </div>
         <div className="genre-section">

@@ -13,6 +13,7 @@ function MovieSearch(){
     const [openModal, setOpenModal] = useState(false);
     const [selectedMovieTitle, setSelectedMovieTitle] = useState(null);
     const [selectedMoviePoster, setSelectedMoviePoster] = useState(null);
+    const [selectedMovieId, setSelectedMovieId] = useState(null);
     const [starRating, setStarRating] = useState({});
 
     const [searchText, setSearchText] = useState('');
@@ -57,24 +58,67 @@ function MovieSearch(){
       }
     }
 
-    const selectMovie = (movieTitle, moviePoster) => {
+    const selectMovie = (movieId, movieName, poster) => {
       setOpenModal(true);
-      setSelectedMovieTitle(movieTitle);
-      setSelectedMoviePoster(moviePoster);
+      setSelectedMovieId(movieId);
+      setSelectedMovieTitle(movieName);
+      setSelectedMoviePoster(poster);
     }
 
-    const updateRating = (movieTitle, newRating) => {
+    const movieWatched = async() => {
+      try{
+        const token = localStorage.getItem('token') || sessionStorage.getItem("token");
+  
+        const starRatingData = Object.entries(starRating).map(([movieId, rating]) => ({
+          movieId: movieId,
+          rating: rating,
+        }));
+        console.log(starRatingData);
+        
+        const response = await axios.post('http://35.216.42.151:8080/api/v1/movie/watch', starRatingData, {
+          headers : {
+            Authorization: `Bearer ${token}`
+          },
+        });
+        if(response.status === 200){
+          console.log('영화별점등록완료')
+          return response.data;
+        }
+      }
+      catch(error){
+        if(error.response){
+          if(error.response.status===400){
+            console.log('잘못된 접근입니다.');
+          }
+          else if(error.response.status===403){
+            console.log('유효성검사 실패');
+          }
+          else{
+            console.error('Error : ',error);
+            console.log('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.')
+          }
+        }
+        return [];
+      }
+    }
+    const updateRating = (movieId, newRating) => {
       setStarRating(prevRatings => ({
         ...prevRatings,
-        [movieTitle] : newRating
+        [movieId] : newRating
       }));
-      if(newRating > 0 && !selectedMovie.includes(movieTitle)){
-        setSelectedMovie([...selectedMovie, movieTitle]);
+
+      if(newRating > 0 && !selectedMovie.includes(movieId)){
+        setSelectedMovie([...selectedMovie, movieId]);
       }
       else if(newRating === 0){
-        setSelectedMovie(selectedMovie.filter(m=>m !== movieTitle));
+        setSelectedMovie(selectedMovie.filter(m=>m !== movieId));
       }
     };
+
+    const update = (movieId, newRating) => {
+      updateRating(movieId, newRating);
+      movieWatched();
+    }
 
     const uniqueSearchResult = Array.from(new Set(searchResult.map((m) => m.movieName))).map((title) => searchResult.find((m) => m.movieName === title));
 
@@ -87,12 +131,12 @@ function MovieSearch(){
                     {              
                     searchResult ? uniqueSearchResult.map((m) => (
                             <MovieTasteButton
-                                key={m.movieName} 
-                                onClick={() => selectMovie(m.movieName, m.poster)} 
+                                key={m.movieId} 
+                                onClick={() => selectMovie(m.movieId, m.movieName, m.poster)} 
                                 moviePoster = {m.poster} 
                                 movieTitle = {m.movieName} 
-                                rate={starRating[m.movieName] || 0}
-                                selected={starRating[m.movieName] > 0} 
+                                rate={starRating[m.movieId] || 0}
+                                selected={starRating[m.movieId] > 0} 
                             />
                         )) : <div>검색결과가 없습니다</div>}
                 </div>
@@ -100,10 +144,11 @@ function MovieSearch(){
             <BottomNavigationBar/>
             <MovieRateDialog 
                 openModal={openModal} 
+                movieId = {selectedMovieId}
                 movieTitle={selectedMovieTitle} 
                 moviePoster={selectedMoviePoster} 
-                rate={starRating[selectedMovieTitle] || 0} 
-                rateUpdate={updateRating}
+                rate={starRating[selectedMovieId] || 0} 
+                rateUpdate={update}
                 onClose={()=>setOpenModal(false)}
                 />
         </div>

@@ -11,7 +11,6 @@ function MovieGenre() {
   const [showWarning, setShowWarning] = useState(true);
   const [selectedHateGenre, setSelectedHateGenre] = useState([]);
   const [step, setStep] = useState("선호");
-  var [movies, setMovies] = useState([]);
 
   const recommendMovies = async()=> {
 
@@ -44,8 +43,7 @@ function MovieGenre() {
       return [];
     }
   }
-  var user = "___";
-  const jwtToken = localStorage.getItem("token"); // JWT 토큰 가져오기
+  const jwtToken = localStorage.getItem("token")||sessionStorage.getItem("token"); // JWT 토큰 가져오기
 
   const genres = [
     { id: 1, poster: "https://image.tmdb.org/t/p/w400/cadVm6gKYYukmPysHGCwrawUHHa.jpg", genre: "액션" },
@@ -81,7 +79,6 @@ function MovieGenre() {
   const nextPage = async() => {
     const recommendedMovies = await recommendMovies();
     const uniqueRecommendMovies = Array.from(new Set(recommendedMovies.map((m) => m.movieName))).map((title) => recommendedMovies.find((m) => m.movieName === title));
-    setMovies(uniqueRecommendMovies);
     navigate('/movie', {state : {'movies' : uniqueRecommendMovies}});
   }
   const saveGenres = async () => {
@@ -102,7 +99,6 @@ function MovieGenre() {
           { genres: selectedFavoriteGenre },
           {
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${jwtToken}`,
             },
           }
@@ -113,7 +109,6 @@ function MovieGenre() {
           { genres: [] },
           {
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${jwtToken}`,
             },
           }
@@ -123,7 +118,6 @@ function MovieGenre() {
           { genres: selectedHateGenre },
           {
             headers: {
-              "Content-Type": "application/json",
               Authorization: `Bearer ${jwtToken}`,
             },
           }

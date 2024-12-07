@@ -1,19 +1,15 @@
 import MovieTasteButton from '../MovieTasteButton';
-import Bottom2Button from "../Bottom2Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MovieRateDialog from "../MovieRateDialog";
-import Logo from "../Logo";
 import BottomNavigationBar from '../BottomNavigationBar';
 import BackButtonWithMypage from '../BackButtonWithMypage';
 import axios from 'axios';
 
 function MovieTaste() {
   
-  const navigate = useNavigate();
   const location = useLocation();
 
-  const [selectedMovie, setSelectedMovie] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovieTitle, setSelectedMovieTitle] = useState(null);
   const [selectedMoviePoster, setSelectedMoviePoster] = useState(null);
@@ -32,6 +28,8 @@ function MovieTaste() {
     }
   }, []);
 
+
+
   const selectMovie = (movieId, movieName, poster) => {
     setOpenModal(true);
     setSelectedMovieId(movieId);
@@ -47,6 +45,7 @@ function MovieTaste() {
         movieId: m.movieId,
         rating: m.rating
       }));
+      console.log(starRatingData);
       const response = await axios.patch('http://35.216.42.151:8080/api/v1/movie/rating', starRatingData, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -83,7 +82,6 @@ function MovieTaste() {
               moviePoster={m.poster}
               movieTitle={m.movieName}
               rate={m.rating || 0}
-              selected={m.rating > 0}
             />
           ))}
         </div>

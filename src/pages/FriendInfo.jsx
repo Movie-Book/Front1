@@ -8,7 +8,6 @@ function FriendInfo() {
   const location = useLocation();
   const name = location.state?.id || "___";
   const navigate = useNavigate();
-  const [starRating, setStarRating] = useState({});
   const [books, setBooks] = useState([]);
   const jwtToken = localStorage.getItem("token") || sessionStorage.getItem("token"); // 토큰 정보 가져오기
 

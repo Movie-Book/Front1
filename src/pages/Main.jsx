@@ -9,8 +9,9 @@ function Main(){
         }, 3000)
     })
     useEffect(()=>{
-        if(mainLogo==false)
-            navigate('/home');
+        if(mainLogo===false){
+                navigate('/home');
+            }
     })
     return(
             <div className="mainLogoDiv">

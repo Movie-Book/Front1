@@ -10,7 +10,7 @@ const MyMovie = () => {
 
   // location.state가 undefined인 경우를 처리
   const movies = location.state?.movies || []; // movies가 undefined라면 빈 배열로 대체
-
+  console.log(location.state)
   return (
     <div>
       <BackButtonWithMypage title={"내 영화 편집"} />
