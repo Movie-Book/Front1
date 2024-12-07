@@ -10,6 +10,7 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [rememberMe, setRememberMe] = useState(false); // "로그인 유지" 체크 상태
 
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -38,7 +39,20 @@ const LoginPage = () => {
         console.log(localStorage.getItem('token') || sessionStorage.getItem('token'));
         console.log(localStorage.getItem('userId') || sessionStorage.getItem('userId'));
         
-        navigate('/home'); // 로그인 성공 후 홈으로 이동
+        const exist = await axios.get("http://35.216.42.151:8080/api/v1/genre/like", {
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer ${localStorage.getItem('token')||sessionStorage.getItem('token')}`,
+          },
+        });
+        console.log(exist.data.length);
+
+        if(exist.data.length > 0){
+          navigate('/home'); // 로그인 성공 후 홈으로 이동
+        }
+        else{
+          navigate('/movieGenre');
+        }
       }
     } catch (error) {
       if (error.response) {

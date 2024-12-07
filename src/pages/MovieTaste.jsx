@@ -24,19 +24,24 @@ function MovieTaste() {
   console.log(location.state);
   const movies = location.state?.movies || [];
 
+  
   const movieWatched = async() => {
     try{
       const token = localStorage.getItem('token') || sessionStorage.getItem("token");
 
       const starRatingData = Object.entries(starRating).map(([movieId, rating]) => ({
-        movieId, rating
+        movieId: movieId,
+        rating: rating,
       }));
+      console.log(starRatingData);
+      
       const response = await axios.post('http://35.216.42.151:8080/api/v1/movie/watch', starRatingData, {
         headers : {
           Authorization: `Bearer ${token}`
         },
       });
       if(response.status === 200){
+        console.log('영화별점등록완료')
         return response.data;
       }
     }
@@ -61,8 +66,8 @@ function MovieTaste() {
     navigate('/movieGenre');
   }
 
-  const done = () => {
-    movieWatched();
+  const done = async() => {
+    await movieWatched(movies);
     navigate('/');
   }
 
@@ -120,6 +125,7 @@ function MovieTaste() {
                text2="선택완료"
                onClick1={back}
                onClick2={done} 
+               disabled={selectedMovie.length<3}
             />
         </div>
       <MovieRateDialog 
@@ -127,7 +133,7 @@ function MovieTaste() {
           movieId = {selectedMovieId}
           movieTitle={selectedMovieTitle} 
           moviePoster={selectedMoviePoster} 
-          rate={(movies.find(movie => movie.movieId === selectedMovieId)?.rating) || 0}
+          rate={starRating[selectedMovieId] || 0}
           rateUpdate={updateRating}
           onClose={()=>setOpenModal(false)}
         />

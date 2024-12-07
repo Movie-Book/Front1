@@ -26,7 +26,6 @@ const MyPage = () => {
   }, []);
 
   const handleLogout = async () => {
-    try {
       const token = localStorage.getItem("token") || sessionStorage.getItem("token");
       if (!token) throw new Error("JWT 토큰이 없습니다.");
 
@@ -41,24 +40,12 @@ const MyPage = () => {
           },
         }
       );
-
-      console.log("Logout successful:", response.data); // 로그아웃 성공 로그
-      localStorage.removeItem("token");
-      localStorage.removeItem("userId"); // 로그아웃 시 유저 ID 삭제
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("userId");
-      navigate("/login"); // 로그인 페이지로 이동
-    } catch (error) {
-      if (error.response) {
-        const serverErrorMessage =
-          error.response.data?.error || "알 수 없는 서버 오류가 발생했습니다.";
-        setErrorMessage(`로그아웃 실패: ${serverErrorMessage}`);
-        console.error("서버 응답 오류:", error.response.data);
-      } else {
-        console.error("요청 오류:", error.message);
-        setErrorMessage("로그아웃 중 문제가 발생했습니다. 다시 시도해주세요.");
-      }
-    }
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId"); // 로그아웃 시 유저 ID 삭제
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("userId");
+        navigate("/login"); // 로그인 페이지로 이동
+      
   };
 
   const handleLogoutClick = () => {

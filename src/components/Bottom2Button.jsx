@@ -1,6 +1,6 @@
 import React from "react";
 
-function Bottom2Button({text1, text2, onClick1, onClick2}) {
+function Bottom2Button({text1, text2, onClick1, onClick2, disabled}) {
     const buttonStyle1 = {
         backgroundColor : '#ffffff',
         color : '#d04040',
@@ -31,7 +31,7 @@ function Bottom2Button({text1, text2, onClick1, onClick2}) {
     return(
         <div style={divStyle}>
             <button style={buttonStyle1} onClick={onClick1}><h3>{text1}</h3></button>
-            <button style={buttonStyle2} onClick={onClick2}><h3>{text2}</h3></button>
+            <button style={buttonStyle2} onClick={onClick2} disabled={disabled}><h3>{text2}</h3></button>
         </div>
     );
 }
