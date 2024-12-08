@@ -12,8 +12,6 @@ function MyBook() {
   const [selectedBookImage, setSelectedBookImage] = useState(null);
   const [starRating, setStarRating] = useState({});
 
-  var user = "___";
-
   const navigate = useNavigate();
 
   const books = [
