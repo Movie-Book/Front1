@@ -8,14 +8,9 @@ const MyMovie = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 상태로 movies 관리
-  const [movies, setMovies] = useState(location.state?.movies || []); // 초기 상태를 location.state에서 가져옴
-
-  const handleEditComplete = (updatedMovies) => {
-    // 편집 완료 후 업데이트된 movies를 반영
-    setMovies(updatedMovies);
-  };
-
+  // location.state가 undefined인 경우를 처리
+  const movies = location.state?.movies || []; // movies가 undefined라면 빈 배열로 대체
+  console.log(location.state)
   return (
     <div>
       <BackButtonWithMypage title={"내 영화 편집"} />
@@ -33,16 +28,14 @@ const MyMovie = () => {
           </div>
           <button
             className="my-movie-edit-button"
-            onClick={() =>
-              navigate("/mymovie/taste", { state: { movies, onEditComplete: handleEditComplete } })
-            }
+            onClick={() => navigate("/mymovie/taste", { state: { movies } })}
           >
             편집
           </button>
         </div>
         <div className="movie-rate-edit-container">
           <div className="movie-list">
-            {movies.length > 0 ? (
+            {movies.length > 0 ? ( // 영화 데이터가 있는 경우와 없는 경우를 구분
               movies.map((movie) => (
                 <MovieTasteButton
                   key={movie.movieId}
@@ -53,7 +46,7 @@ const MyMovie = () => {
                 />
               ))
             ) : (
-              <p>등록된 영화가 없습니다.</p>
+              <p>등록된 영화가 없습니다.</p> // 데이터가 없을 때의 메시지
             )}
           </div>
         </div>

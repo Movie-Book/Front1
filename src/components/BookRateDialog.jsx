@@ -1,22 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import Stars from "./Stars";
 
-function BookRateDialog({ openModal, isbn, bookTitle, bookImage, rate, rateUpdate, onClose }) {
+function BookRateDialog({ openModal, isbn, bookTitle, bookImage, rate, review: initialReview, rateUpdate, onClose }) {
   const modalRef = useRef();
   const [rating, setRating] = useState(rate);
-  const [review, setReview] = useState("");
+  const [review, setReview] = useState(initialReview || "");
 
-  useEffect(() => {
-    setRating(rate);
-  }, [rate]);
-
+  // 모달이 열릴 때마다 상태를 업데이트
   useEffect(() => {
     if (openModal) {
+      setRating(rate); // 새로운 책의 rating 반영
+      setReview(initialReview || ""); // 새로운 책의 review 반영
       modalRef.current.showModal();
     } else {
       modalRef.current.close();
     }
-  }, [openModal]);
+  }, [openModal, rate, initialReview]);
 
   const modalClose = async () => {
     try {
@@ -29,24 +28,38 @@ function BookRateDialog({ openModal, isbn, bookTitle, bookImage, rate, rateUpdat
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          isbn: isbn, 
-          rating: Number(rating),
-          review: review.trim(),
+          isbn: String(isbn),
+          rating: Math.max(0, Math.min(Number(rating), 5)),
+          review: review.trim() || "No review provided.",
         }),
       });
-
+  
       if (!response.ok) {
-        throw new Error(`리뷰 업데이트 실패: ${response.status}`);
+        // JSON 파싱 시도, 실패하면 텍스트로 처리
+        let errorResponse;
+        try {
+          errorResponse = await response.json();
+        } catch {
+          errorResponse = await response.text(); // 텍스트 응답
+        }
+        console.error("서버 응답:", errorResponse);
+        throw new Error(`리뷰 업데이트 실패: ${errorResponse}`);
       }
-
+  
       const updatedBook = await response.json();
       rateUpdate(updatedBook.isbn, updatedBook.rating, updatedBook.review);
     } catch (err) {
       console.error("별점/리뷰 업데이트 오류:", err);
     }
-
+    console.log("요청 데이터:", {
+      isbn: String(isbn),
+      rating: Math.max(0, Math.min(Number(rating), 5)),
+      review: review.trim() || "No review provided.",
+    });
+    
     onClose();
   };
+  
 
   return (
     <div>
