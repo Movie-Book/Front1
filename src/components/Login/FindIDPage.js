@@ -61,8 +61,8 @@ const FindIDPage = () => {
         {userId && <p className="success-message">{userId}</p>}
         {errorMessage && <p className="error-message">{errorMessage}</p>}
         <div className="back-login">
-          <a href="#" onClick={() => navigate('/login/')}>로그인</a> | 
-          <a href="#" onClick={() => navigate('/login/signin')}>회원가입</a>
+          <a className="helper-links" href="#" onClick={() => navigate('/login/')}>로그인</a> | 
+          <a className="helper-links" href="#" onClick={() => navigate('/login/signin')}>회원가입</a>
         </div>
       </form>
     </div>

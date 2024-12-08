@@ -87,7 +87,7 @@ const SignInPage = () => {
         {errorMessage && <p className="error-message">{errorMessage}</p>} 
         <button type="submit" className="signup-button">회원가입</button>
         <div className="back-login">
-          <a href="#" onClick={() => navigate('/login/')}>이미 계정이 있으신가요?</a>
+          <a className="helper-links" href="#" onClick={() => navigate('/login/')}>이미 계정이 있으신가요?</a>
         </div>
       </form>
     </div>

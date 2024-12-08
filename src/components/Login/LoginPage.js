@@ -110,11 +110,11 @@ const LoginPage = () => {
           회원가입
         </button>
         <div className="helper-links">
-          <a href="#" onClick={() => navigate('/login/find-id')}>
+          <a className="helper-links" href="#" onClick={() => navigate('/login/find-id')}>
             아이디 찾기
           </a>{' '}
           |{' '}
-          <a href="#" onClick={() => navigate('/login/reset-pw')}>
+          <a className="helper-links" href="#" onClick={() => navigate('/login/reset-pw')}>
             비밀번호 찾기
           </a>
         </div>

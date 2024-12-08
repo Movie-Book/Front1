@@ -105,8 +105,8 @@ const ResetPWPage = () => {
         {successMessage && <p className="success-message">{successMessage}</p>}
 
         <div className="back-login">
-          <a href="#" onClick={() => navigate('/login/')}>로그인</a> | 
-          <a href="#" onClick={() => navigate('/login/signin')}>회원가입</a>
+          <a className="helper-links" href="#" onClick={() => navigate('/login/')}>로그인</a> | 
+          <a className="helper-links" href="#" onClick={() => navigate('/login/signin')}>회원가입</a>
         </div>
       </form>
     </div>
