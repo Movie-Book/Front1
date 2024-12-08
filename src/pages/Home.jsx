@@ -25,35 +25,40 @@ function Home(){
         loadingHome();
     },[]);
 
-    const BookRecommend = async() => {
-        try{
-          const token = localStorage.getItem('token')||sessionStorage.getItem('token');
-          const response = await axios.get('http://35.216.42.151:8080/api/v1/book/recommend', {
-            headers : {
-              Authorization : `Bearer ${token}`
-            }
-          });
-          if(response.status === 200){
-            console.log("추천 도서 리스트입니다");
-            return response.data;
+    const BookRecommend = async () => {
+      try {
+          const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+          const response = await axios.post(
+              'http://35.216.42.151:8080/api/v1/book/recommend', 
+              {}, 
+              {
+                  headers: {
+                      "Content-Type": "application/json",
+                      Accept: "application/json",
+                      Authorization: `Bearer ${token}`
+                  }
+              }
+          );
+          if (response.status === 200) {
+              console.log("추천 도서 리스트입니다");
+              return response.data;
           }
-        }
-        catch(error){
-          if(error.response){
-            if(error.response.status===400){
-              console.log('도서 추천에 실패했습니다');
-            }
-            else if(error.response.status===403){
-              console.log('유효성검사 실패');
-            }
-            else{
-              console.error('Error : ',error);
-              console.log('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.')
-            }
+      } catch (error) {
+          if (error.response) {
+              if (error.response.status === 400) {
+                  console.log('도서 추천에 실패했습니다');
+              } else if (error.response.status === 403) {
+                  console.log('유효성검사 실패');
+              } else {
+                  console.error('Error : ', error);
+                  console.log('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.');
+                  console.error("Error:", error.response || error.message);
+              }
           }
           return [];
       }
-    }
+  };
+  
 
     const newRecommendation = () => {
         if(recommendedBooks.length > 0){
