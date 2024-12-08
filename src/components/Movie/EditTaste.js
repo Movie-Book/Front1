@@ -10,13 +10,12 @@ function EditTaste() {
   
   const location = useLocation();
 
+  const [movies, setMovies] = useState(location.state.movies);
   const [openModal, setOpenModal] = useState(false);
   const [selectedMovieTitle, setSelectedMovieTitle] = useState(null);
   const [selectedMoviePoster, setSelectedMoviePoster] = useState(null);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
   const [user, setUser] = useState(""); // 사용자 ID 상태 추가
-
-  const movies = location.state.movies;
 
   useEffect(() => {
     // 로컬 스토리지에서 사용자 ID 가져오기
@@ -60,6 +59,7 @@ function EditTaste() {
       if (response.status === 200) {
         console.log("영화별점수정완료");
         // navigate로 상태와 콜백 전달
+        setMovies(updatedMovies);
         const onEditComplete = location.state?.onEditComplete;
         if (onEditComplete) {
           onEditComplete(updatedMovies); // 부모 컴포넌트에 반영
