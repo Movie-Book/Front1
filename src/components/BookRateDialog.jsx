@@ -28,19 +28,18 @@ function BookRateDialog({ openModal, isbn, bookTitle, bookImage, rate, review: i
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          isbn: String(isbn),
+          isbn: String(isbn), // ISBN 추가
           rating: Math.max(0, Math.min(Number(rating), 5)),
           review: review.trim() || "No review provided.",
         }),
       });
   
       if (!response.ok) {
-        // JSON 파싱 시도, 실패하면 텍스트로 처리
         let errorResponse;
         try {
           errorResponse = await response.json();
         } catch {
-          errorResponse = await response.text(); // 텍스트 응답
+          errorResponse = await response.text();
         }
         console.error("서버 응답:", errorResponse);
         throw new Error(`리뷰 업데이트 실패: ${errorResponse}`);
@@ -51,14 +50,9 @@ function BookRateDialog({ openModal, isbn, bookTitle, bookImage, rate, review: i
     } catch (err) {
       console.error("별점/리뷰 업데이트 오류:", err);
     }
-    console.log("요청 데이터:", {
-      isbn: String(isbn),
-      rating: Math.max(0, Math.min(Number(rating), 5)),
-      review: review.trim() || "No review provided.",
-    });
-    
     onClose();
   };
+  
   
 
   return (
