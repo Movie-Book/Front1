@@ -6,7 +6,7 @@ import BottomNavigationBar from '../BottomNavigationBar';
 import BackButtonWithMypage from '../BackButtonWithMypage';
 import axios from 'axios';
 
-function MovieTaste() {
+function EditTaste() {
   
   const location = useLocation();
 
@@ -37,22 +37,33 @@ function MovieTaste() {
     setSelectedMoviePoster(poster);
   }
 
-  const updateRating = async(movieId, newRating) => {
-    movies.find((m) => m.movieId === movieId).rating = newRating;
+  const updateRating = async (movieId, newRating) => {
+    const updatedMovies = movies.map((m) =>
+      m.movieId === movieId ? { ...m, rating: newRating } : m
+    );
     try {
-      const token = localStorage.getItem('token') || sessionStorage.getItem("token");
-      const starRatingData = movies.map((m) => ({
+      const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+      const starRatingData = updatedMovies.map((m) => ({
         movieId: m.movieId,
-        rating: m.rating
+        rating: m.rating,
       }));
       console.log(starRatingData);
-      const response = await axios.patch('http://35.216.42.151:8080/api/v1/movie/rating', starRatingData, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-      });
+      const response = await axios.patch(
+        "http://35.216.42.151:8080/api/v1/movie/rating",
+        starRatingData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.status === 200) {
         console.log("영화별점수정완료");
+        // navigate로 상태와 콜백 전달
+        const onEditComplete = location.state?.onEditComplete;
+        if (onEditComplete) {
+          onEditComplete(updatedMovies); // 부모 컴포넌트에 반영
+        }
       }
     } catch (error) {
       if (error.response) {
@@ -61,12 +72,13 @@ function MovieTaste() {
         } else if (error.response.status === 403) {
           console.log("유효성검사 실패");
         } else {
-          console.error('Error : ', error);
-          console.log('서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.')
+          console.error("Error : ", error);
+          console.log("서버에 문제가 발생했습니다. 나중에 다시 시도해주세요.");
         }
       }
     }
   };
+  
 
   return (
     <div>
@@ -100,4 +112,4 @@ function MovieTaste() {
   );
 };
 
-export default MovieTaste;
+export default EditTaste;

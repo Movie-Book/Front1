@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import MovieRateDialog from "../components/MovieRateDialog";
+import BookRateDialog from "../components/BookRateDialog";
 import BookTasteButton from "../components/BookTasteButton";
 import BackButtonWithMypage from "../components/BackButtonWithMypage";
 import BottomNavigationBar from "../components/BottomNavigationBar";
@@ -10,21 +10,24 @@ function MyBook() {
   const [openModal, setOpenModal] = useState(false);
   const [selectedBookTitle, setSelectedBookTitle] = useState(null);
   const [selectedBookImage, setSelectedBookImage] = useState(null);
+  const [selectedBookISBN, setSelectedBookISBN] = useState(null);
   const [starRating, setStarRating] = useState({});
-  const [books, setBooks] = useState([]); // 추천 도서 리스트 상태
-  const [loading, setLoading] = useState(true); // 로딩 상태
-  const [error, setError] = useState(null); // 에러 상태
+  const [reviews, setReviews] = useState({});
+  const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
-  // API 호출
   useEffect(() => {
     const fetchBooks = async () => {
       try {
+        const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         setLoading(true);
         const response = await fetch("http://35.216.42.151:8080/api/v1/book/rec-list", {
           headers: {
-            "accept": "application/json",
+            accept: "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
 
@@ -32,35 +35,35 @@ function MyBook() {
           throw new Error(`API 요청 실패: ${response.status}`);
         }
 
-        const data = await response.json(); // JSON 데이터 파싱
-        setBooks(data); // 추천 도서 리스트 저장
+        const data = await response.json();
+        setBooks(data);
       } catch (err) {
-        setError(err.message); // 에러 메시지 저장
+        setError(err.message);
       } finally {
-        setLoading(false); // 로딩 상태 종료
+        setLoading(false);
       }
     };
 
     fetchBooks();
   }, []);
 
-  const selectBook = (bookTitle, bookImage) => {
+  const selectBook = (bookTitle, bookImage, isbn) => {
     setOpenModal(true);
     setSelectedBookTitle(bookTitle);
     setSelectedBookImage(bookImage);
+    setSelectedBookISBN(isbn);
   };
 
-  const updateRating = (bookTitle, newRating) => {
-    setStarRating((prevRatings) => ({
-      ...prevRatings,
-      [bookTitle]: newRating,
-    }));
-    if (newRating > 0 && !selectedBook.includes(bookTitle)) {
-      setSelectedBook([...selectedBook, bookTitle]);
-    } else if (newRating === 0) {
-      setSelectedBook(selectedBook.filter((m) => m !== bookTitle));
-    }
+  const updateRating = (isbn, newRating, review) => {
+    setBooks((prevBooks) =>
+      prevBooks.map((book) =>
+        book.isbn === isbn
+          ? { ...book, rating: newRating, review }
+          : book
+      )
+    );
   };
+  
 
   if (loading) {
     return <div>로딩 중...</div>;
@@ -78,8 +81,8 @@ function MyBook() {
         <div className="movieContainer">
           {books.map((book) => (
             <BookTasteButton
-              key={book.name}
-              onClick={() => selectBook(book.name, book.image)}
+              key={book.isbn}
+              onClick={() => selectBook(book.name, book.image, book.isbn)}
               bookImage={book.image}
               bookTitle={book.name}
               rate={starRating[book.name] || 0}
@@ -89,11 +92,13 @@ function MyBook() {
         </div>
       </div>
       <BottomNavigationBar />
-      <MovieRateDialog
+      <BookRateDialog
         openModal={openModal}
-        movieTitle={selectedBookTitle}
-        moviePoster={selectedBookImage}
+        bookTitle={selectedBookTitle}
+        bookImage={selectedBookImage}
+        isbn={selectedBookISBN}
         rate={starRating[selectedBookTitle] || 0}
+        review={reviews[selectedBookTitle] || ""}
         rateUpdate={updateRating}
         onClose={() => setOpenModal(false)}
       />
