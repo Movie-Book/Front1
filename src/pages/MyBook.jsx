@@ -4,6 +4,7 @@ import BookRateDialog from "../components/BookRateDialog";
 import BookTasteButton from "../components/BookTasteButton";
 import BackButtonWithMypage from "../components/BackButtonWithMypage";
 import BottomNavigationBar from "../components/BottomNavigationBar";
+import axios from "axios";
 
 function MyBook() {
   const [openModal, setOpenModal] = useState(false);
@@ -22,19 +23,15 @@ function MyBook() {
       try {
         const token = localStorage.getItem("token") || sessionStorage.getItem("token");
         setLoading(true);
-        const response = await fetch("http://35.216.42.151:8080/api/v1/book/rec-list", {
+
+        const response = await axios.get("http://35.216.42.151:8080/api/v1/book/rec-list", {
           headers: {
-            accept: "application/json",
             Authorization: `Bearer ${token}`,
+            Accept: "application/json",
           },
         });
 
-        if (!response.ok) {
-          throw new Error(`API 요청 실패: ${response.status}`);
-        }
-
-        const data = await response.json();
-        setBooks(data);
+        setBooks(response.data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -66,7 +63,9 @@ function MyBook() {
           : book
       )
     );
-    setOpenModal(false); // 모달 닫기
+
+    // 상태 업데이트가 완료된 후 모달을 닫기
+    setOpenModal(false);
   };
 
   if (loading) {
@@ -101,12 +100,8 @@ function MyBook() {
         bookTitle={selectedBookTitle}
         bookImage={selectedBookImage}
         isbn={selectedBookISBN}
-        rate={
-          books.find((book) => book.isbn === selectedBookISBN)?.rating || 0
-        }
-        review={
-          books.find((book) => book.isbn === selectedBookISBN)?.review || ""
-        }
+        rate={books.find((book) => book.isbn === selectedBookISBN)?.rating || 0}
+        review={books.find((book) => book.isbn === selectedBookISBN)?.review || ""}
         rateUpdate={updateRating}
         onClose={() => setOpenModal(false)}
       />
