@@ -6,7 +6,7 @@ function LogoWithMypage(){
 
     return(
         <div className="Logo"> 
-            <img  onClick={() => navigate('/')}  className="logoImage" src="/image/logo.gif" alt="MovieBook" />
+            <img  onClick={() => navigate('/')}  className="logoImage" src="/image/logo.jpg" alt="MovieBook" />
             <img onClick={() => navigate('/profile')} className="mypage" src="/image/mypage.png" alt="mypage"></img>
         </div>
     );
