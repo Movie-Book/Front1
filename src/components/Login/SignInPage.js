@@ -38,7 +38,7 @@ const SignInPage = () => {
   
       if (response.status === 200) {
         alert('회원가입 성공');
-        navigate('/movieGenre/');
+        navigate('/login/');
       }
     } catch (error) {
       if (error.response) {

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 function Main(){
     const navigate = useNavigate();
     const [mainLogo, setMainLogo] = useState(true);
+    const token = localStorage.getItem('token');
     useEffect(()=>{
         setTimeout(()=>{
             setMainLogo(false);
@@ -10,7 +11,12 @@ function Main(){
     })
     useEffect(()=>{
         if(mainLogo===false){
-                navigate('/home');
+                if(token===null){
+                    navigate('/login');
+                }
+                else{
+                    navigate('/home');
+                }
             }
     })
     return(
