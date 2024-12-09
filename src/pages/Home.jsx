@@ -71,11 +71,13 @@ function Home(){
   };
   
 
-    const newRecommendation = () => {
-        if(recommendedBooks.length > 0){
-            setCurrentBookIndex((prevIndex)=>(prevIndex+1)%recommendedBooks.length);
-        }
+  const newRecommendation = () => {
+    if (recommendedBooks.length > 0) {
+        setCurrentBookIndex((prevIndex) => (prevIndex + 1) % recommendedBooks.length);
+        window.scrollTo({ top: 0, behavior: "smooth" }); // 스크롤을 맨 위로 부드럽게 이동
     }
+};
+
 
     const toBookInfo=()=>{
         const currentBook = recommendedBooks[currentBookIndex];
