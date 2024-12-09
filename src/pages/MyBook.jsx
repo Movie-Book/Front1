@@ -68,14 +68,6 @@ function MyBook() {
     setOpenModal(false);
   };
 
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
-
-  if (error) {
-    return <div>에러 발생: {error}</div>;
-  }
-
   return (
     <div>
       <BackButtonWithMypage title="내 도서" />
