@@ -5,18 +5,22 @@ function BackButtonWithMypage(props){
     const navigate = useNavigate();
     const location = useLocation();
     const back = () => {
-        if(location.pathname==="/search")
+        if (["/search", "/mymovie", "/mybook"].includes(location.pathname)) {
             navigate("/home");
-        else if(location.pathname==="/mymovie")
-            navigate("/home");
-        else if(location.pathname==="/mybook")
-            navigate("/home");
-        else
+        } else {
             navigate(-1);
+        }
+        
     }
     return(
         <div className="Logo"> 
-            <img  onClick={back}  className="back" src="/image/back.png" alt="back" />
+            {["/search", "/mymovie", "/mybook"].includes(location.pathname) ? (<img
+                onClick={() => navigate('/home')}
+                className="logoImage"
+                src="/image/logo.jpg"
+                alt="MovieBook"
+            />) : (
+            <img  onClick={back}  className="back" src="/image/back.png" alt="back" />)}
             <h3 className="info">{props.title}</h3>
             <img onClick={() => navigate('/profile')} className="mypage" src="/image/mypage.png" alt="mypage"></img>
 
