@@ -47,7 +47,7 @@ const ResetPWPage = () => {
         }, {
           headers: {
             'Content-Type': 'application/json',
-            'accept': 'application/json'
+            accept: 'application/json'
           }
         });
 
