@@ -9,7 +9,12 @@ function Home(){
     const navigate=useNavigate();
     const location=useLocation();
 
-    const [recommendedBooks, setRecommendedBooks] = useState(location.state?.bookInfo||[]);
+    const [recommendedBooks, setRecommendedBooks] = useState(
+        (location.state?.bookInfo || []).filter((book, index, self) =>
+            index === self.findIndex(b => b.bookName === book.bookName)
+        )
+    );
+    
     const [currentBookIndex, setCurrentBookIndex] = useState(0);
 
     const bookTitle="어린왕자";
@@ -20,7 +25,13 @@ function Home(){
     useEffect(()=>{
         const loadingHome = async() => {
             const books = await BookRecommend();
-            setRecommendedBooks(books);
+            setRecommendedBooks(prevBooks => {
+                const uniqueBooks = [...prevBooks, ...books].filter((book, index, self) =>
+                    index === self.findIndex(b => b.bookName === book.bookName)
+                );
+                return uniqueBooks;
+            });
+            
         };
         loadingHome();
     },[]);
