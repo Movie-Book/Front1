@@ -42,12 +42,11 @@
   
   /* 영화 리스트 레이아웃 */
   .movie-list {
-    flex-grow: 1;
+    justify-content: start;
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3열 레이아웃 */
-    gap: 16px;
-    padding: 16px;
-    overflow-y: auto;
+    grid-template-columns: repeat(3,1fr);
+    column-gap: 5%;
+    width: 100%;
   }
   
   .movie-item {
