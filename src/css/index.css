@@ -435,14 +435,19 @@ code {
     color: #000000;
 }
 
+.bookRate{
+    padding : 0px 30px
+}
+
 .bookRate img {
     width: 30%;
     float: left;
 }
 
 .bookInfo {
-    width: 70%;
+    width: 60%;
     float: left;
+    margin : 0% 5%
 }
 
 .bookInfo .bookTitle {

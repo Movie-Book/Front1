@@ -99,7 +99,7 @@ function MovieTaste() {
   const done = async() => {
     await movieWatched(movies);
     const bookInfo = await BookRecommendation();
-    navigate('/', {state : {'bookInfo' : bookInfo}});
+    navigate('/home', {state : {'bookInfo' : bookInfo}});
   }
 
   const selectMovie = (movieId, movieName, poster) => {

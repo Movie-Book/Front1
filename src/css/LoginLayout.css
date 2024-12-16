@@ -32,9 +32,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(var(--vh, 1vh) * 100);
-  background-color: #ffffff;
-  margin: 5%;
+  background-color: #ffffff;  
+  height: 45vh;
+  vertical-align: center;
 }
 
 .login-title {
@@ -42,17 +42,21 @@
 }
 
 .login-form {
-  width: 300px;
+  width: 500px;
   display: flex;
   flex-direction: column;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .login-input {
-  padding: 10px;
+  padding: 15px;
   margin-bottom: 10px;
   border: 1px solid var(--grey);
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 30px;
 }
 
 .remember-me {
@@ -63,7 +67,7 @@
 
 .remember-me label {
   margin-left: 5px;
-  font-size: 14px;
+  font-size: 25px;
 }
 
 .login-button {
@@ -73,8 +77,9 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-top : 10px;
   margin-bottom: 10px;
-  font-size: 16px;
+  font-size: 30px;
 }
 
 .login-button:hover {
@@ -83,13 +88,14 @@
 
 .signin-button {
   padding: 10px;
-  background-color: #ffffff;
-  color: var(--main-red);
+  background-color:#ffffff;
+  color:  var(--main-red);
   border: 1px solid var(--main-red);
   border-radius: 5px;
   cursor: pointer;
-  font-size: 16px;
   margin-bottom: 20px;
+  font-size: 30px;
+
 }
 
 .signin-button:hover {
@@ -99,7 +105,7 @@
 
 .helper-links {
   text-align: center;
-  font-size: 14px;
+  font-size: 25px;
 }
 
 .helper-links a {
@@ -113,8 +119,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(var(--vh, 1vh) * 100);
-  margin: 5%;
+  background-color: #ffffff;  
+  height: 45vh;
+  vertical-align: center;
 }
 
 .reset-pw-title {
@@ -122,16 +129,21 @@
 }
 
 .reset-pw-form {
-  width: 300px;
+  width: 500px;
   display: flex;
   flex-direction: column;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .reset-pw-input {
-  padding: 10px;
-  margin: 10px 0;
+  padding: 15px;
+  margin-bottom: 10px;
   border: 1px solid var(--grey);
   border-radius: 5px;
+  font-size: 30px;
 }
 
 .error-message {
@@ -154,8 +166,9 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top : 10px;
   margin-bottom: 20px;
+  font-size: 30px;
 }
 
 .find-pw-button:hover {
@@ -167,8 +180,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(var(--vh, 1vh) * 100);
-  margin: 5%;
+  background-color: #ffffff;  
+  height: 45vh;
+  vertical-align: center;
 }
 
 .signup-title {
@@ -176,16 +190,21 @@
 }
 
 .signup-form {
-  width: 300px;
+  width: 500px;
   display: flex;
   flex-direction: column;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .signup-input {
-  padding: 10px;
-  margin: 10px 0;
+  padding: 15px;
+  margin-bottom: 10px;
   border: 1px solid var(--grey);
   border-radius: 5px;
+  font-size: 30px;
 }
 
 .signup-button {
@@ -197,6 +216,7 @@
   cursor: pointer;
   margin-top: 10px;
   margin-bottom: 20px;
+  font-size: 30px;
 }
 
 .signup-button:hover {
@@ -219,9 +239,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(var(--vh, 1vh) * 100);
-  margin: 5%;
-
+  background-color: #ffffff;  
+  height: 45vh;
+  vertical-align: center;
 }
 
 .find-id-title {
@@ -229,16 +249,21 @@
 }
 
 .find-id-form {
-  width: 300px;
+  width: 500px;
   display: flex;
   flex-direction: column;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }
 
 .find-id-input {
-  padding: 10px;
-  margin: 10px 0;
+  padding: 15px;
+  margin-bottom: 10px;
   border: 1px solid var(--grey);
   border-radius: 5px;
+  font-size: 30px;
 }
 
 .find-id-button {
@@ -248,8 +273,9 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top : 10px;
   margin-bottom: 20px;
+  font-size: 30px;
 }
 
 .find-id-button:hover {
